@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Domain
 {
-    public class City : BaseEntity
+    public class Role: BaseEntity
     {
-        public String Name { get; set; }
+        public string Name { get; set; }
     }
 }

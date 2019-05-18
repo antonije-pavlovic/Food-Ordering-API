@@ -4,4 +4,29 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20190518152226_cart configuration added.cs" />
+    <Compile Remove="Migrations\20190518152226_cart configuration added.Designer.cs" />
+    <Compile Remove="Migrations\20190518152501_cart configuration added.cs" />
+    <Compile Remove="Migrations\20190518152501_cart configuration added.Designer.cs" />
+    <Compile Remove="Migrations\20190518161354_configuration added.cs" />
+    <Compile Remove="Migrations\20190518161354_configuration added.Designer.cs" />
+    <Compile Remove="Migrations\20190518161912_configuration added.cs" />
+    <Compile Remove="Migrations\20190518161912_configuration added.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
 </Project>

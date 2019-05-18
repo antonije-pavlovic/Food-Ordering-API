@@ -7,6 +7,6 @@ namespace Domain
     public class Category : BaseEntity
     {
         public string Name { get; set; }
-        public int MyProperty { get; set; }
+        public ICollection<Dish> Dishes { get; set; }
     }
 }

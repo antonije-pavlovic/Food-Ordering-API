@@ -7,7 +7,7 @@ namespace Domain
     public class BaseEntity
     {
         public int Id { get; set; }
-        public DateTime CreatetAt { get; set; }
+        public DateTime CreatedtAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
     }
 }

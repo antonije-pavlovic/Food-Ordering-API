@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,8 @@ using Application.DTO;
 using DataAccess;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Repository.UnitOfWork;
 
 namespace API.Controllers
@@ -17,10 +21,12 @@ namespace API.Controllers
     public class AuthController : ControllerBase
     {
         private IUnitOfWork _unitOfWork;
+        private IConfiguration _config;
 
-        public AuthController(IUnitOfWork unitOfWork)
+        public AuthController(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
+            _config = config;
         }
         static string ComputeSha256Hash(string rawData)
         {
@@ -55,10 +61,42 @@ namespace API.Controllers
                 return BadRequest("Password is required");
             if (!data.Email.Contains("@"))
                 return BadRequest("Emmail is not in good format");
+            data.Password = ComputeSha256Hash(data.Password);
             _unitOfWork.User.RegisterUser(data);
             _unitOfWork.Save();
             return Ok("succesfull registration");
+        }
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login([FromBody] AuthDTO data)
+        {
+            if (String.IsNullOrEmpty(data.Password))
+                return BadRequest("password is requires");
+            if (String.IsNullOrEmpty(data.Email))
+                return BadRequest("email is requires");
+            if (!data.Email.Contains("@"))
+                return BadRequest("Emmail is not in good format");
+            var token = GenerateJSONWebToken(data);
+            return Ok(token);
+        }
 
+        private string GenerateJSONWebToken(AuthDTO dto)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Email, dto.Email),
+                new Claim(JwtRegisteredClaimNames.Sid, dto.Password)
+            };
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Issuer"],
+                null,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

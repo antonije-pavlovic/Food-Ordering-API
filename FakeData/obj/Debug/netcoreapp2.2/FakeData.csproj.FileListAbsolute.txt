@@ -9,3 +9,12 @@ C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2
 C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.AssemblyInfo.cs
 C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.dll
 C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\Application.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\DataAccess.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\Domain.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\Repository.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\Repository.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\Application.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\DataAccess.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\Domain.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.csproj.CopyComplete

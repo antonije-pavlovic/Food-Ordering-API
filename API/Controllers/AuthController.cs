@@ -49,7 +49,6 @@ namespace API.Controllers
             _unitOfWork.Save();
             return Ok("succesfull registration");
         }
-
         [HttpPost]
         [Route("Login")]
         public IActionResult Login([FromBody] AuthDTO data)
@@ -60,8 +59,9 @@ namespace API.Controllers
                 return BadRequest("email is requires");
             if (!data.Email.Contains("@"))
                 return BadRequest("Emmail is not in good format");
+            data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
             var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email);
-            if (valid != null)
+            if (valid.Count() == 1)
             {                
                 var user = new AuthDTO
                 {
@@ -75,7 +75,7 @@ namespace API.Controllers
             else
             {
                 return BadRequest("there is on user with this password and email");
-            }               
+            }              
 
         }
 

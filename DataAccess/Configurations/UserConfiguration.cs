@@ -23,7 +23,7 @@ namespace DataAccess.Configurations
             builder.Property(u => u.Password)
                 .IsRequired();
             builder.Property(u => u.IsDeleted)
-                .HasDefaultValue(false);
+                .HasDefaultValue(0);
             builder.Property(u => u.CreatedtAt).HasDefaultValueSql("GETDATE()");
         }
     }

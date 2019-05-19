@@ -182,9 +182,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(25);
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<int>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                        .HasDefaultValue(0);
 
                     b.Property<string>("LastName")
                         .IsRequired()

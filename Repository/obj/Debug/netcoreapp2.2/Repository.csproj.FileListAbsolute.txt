@@ -1,0 +1,16 @@
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Repository.deps.json
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Repository.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Repository.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\DataAccess.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Domain.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\DataAccess.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Domain.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.csprojAssemblyReference.cache
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.csproj.CoreCompileInputs.cache
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.AssemblyInfoInputs.cache
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.AssemblyInfo.cs
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.csproj.CopyComplete
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Application.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Application.pdb

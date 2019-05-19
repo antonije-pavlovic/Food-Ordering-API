@@ -1,0 +1,11 @@
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\FakeData.deps.json
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\FakeData.runtimeconfig.json
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\FakeData.runtimeconfig.dev.json
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\FakeData.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\bin\Debug\netcoreapp2.2\FakeData.pdb
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.csprojAssemblyReference.cache
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.csproj.CoreCompileInputs.cache
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.AssemblyInfoInputs.cache
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.AssemblyInfo.cs
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.dll
+C:\Users\Antonije\source\repos\FoodOrederingAPI\FakeData\obj\Debug\netcoreapp2.2\FakeData.pdb

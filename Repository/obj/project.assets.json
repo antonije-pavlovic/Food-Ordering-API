@@ -932,6 +932,16 @@
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
         }
       },
+      "Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.2",
+        "compile": {
+          "bin/placeholder/Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Application.dll": {}
+        }
+      },
       "DataAccess/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.2",
@@ -3595,6 +3605,11 @@
         "system.threading.tasks.nuspec"
       ]
     },
+    "Application/1.0.0": {
+      "type": "project",
+      "path": "../Application/Application.csproj",
+      "msbuildProject": "../Application/Application.csproj"
+    },
     "DataAccess/1.0.0": {
       "type": "project",
       "path": "../DataAccess/DataAccess.csproj",
@@ -3608,6 +3623,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
+      "Application >= 1.0.0",
       "DataAccess >= 1.0.0",
       "Microsoft.NETCore.App >= 2.2.0"
     ]
@@ -3642,6 +3658,9 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
+            "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj": {
+              "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj"
+            },
             "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\DataAccess\\DataAccess.csproj": {
               "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\DataAccess\\DataAccess.csproj"
             }

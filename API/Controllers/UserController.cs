@@ -8,6 +8,7 @@ using Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Repository.UnitOfWork;
 
 namespace API.Controllers
 {
@@ -16,51 +17,62 @@ namespace API.Controllers
     [ApiController]
     public class UserController : ControllerBase, IToken<ClaimsIdentity>
     {
-        public UserController()
+        private IUnitOfWork _unitOfWork;
+        public UserController(IUnitOfWork unitOfWork)
         {
-           
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/User
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "djoka" };
+        [Route("Users")]
+        public IActionResult GetAll()
+        {           
+            return Ok(_unitOfWork.User.GetAll());
         }
 
         // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet]
+        public IActionResult Get()
         {
-            return "value";
+            var uid= GetTokenId.getId(this.getClaim());
+            var user = _unitOfWork.User.Get(uid);
+            return Ok(user);
         }
 
         // POST: api/User
-       
+
         [HttpPost]
         public IActionResult Post([FromBody] string value)
-        {            
-            var claimsIdentity = User.Identity as ClaimsIdentity;
-           // return Ok(claimsIdentity.Claims.Where(x => x.Type == "id").FirstOrDefault().Value);
-           var id = GetTokenId.getId(this.getClaim());
-            //foreach (var claim in claimsIdentity.Claims)
-            //{
-            //    Console.WriteLine(claim.Type + ":" + claim.Value);
-            //}
+        {
+            var id = GetTokenId.getId(this.getClaim());
             return Ok(id);
         }
 
         // PUT: api/User/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] AuthDTO dto)
+        [HttpPut]
+        public IActionResult Put([FromBody] AuthDTO dto)
         {
-            
+            var id = GetTokenId.getId(this.getClaim());
+            var user = _unitOfWork.User.Get(id);
+            if (!String.IsNullOrEmpty(dto.FirstName))
+                user.FirstName = dto.FirstName;
+            if (!String.IsNullOrEmpty(dto.LastName))
+                user.LastName = dto.LastName;
+            if (!String.IsNullOrEmpty(dto.Password))
+                user.Password = dto.Password;
+            if (!String.IsNullOrEmpty(dto.Email))
+                user.Email = dto.Email;
+            _unitOfWork.Save();
+            return Ok("succesufully updated");
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public void Delete()
         {
+           // var id = GetTokenId.getId(this.getClaim());
+            //_unitOfWork.User.Remove(id);
         }
 
         public ClaimsIdentity getClaim()

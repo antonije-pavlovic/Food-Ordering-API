@@ -62,9 +62,10 @@ namespace API.Controllers
             data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
             var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email);
             if (valid.Count() == 1)
-            {                
+            {
                 var user = new AuthDTO
                 {
+                    Id = valid.First().Id,
                     FirstName = valid.First().FirstName,
                     LastName = valid.First().LastName,
                     Email = valid.First().Email

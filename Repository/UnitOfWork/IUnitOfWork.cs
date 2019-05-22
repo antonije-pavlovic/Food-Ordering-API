@@ -10,6 +10,7 @@ namespace Repository.UnitOfWork
         IUserRepository User { get; }
         ICategoryRepository Category { get; }
         IDishRepository Dish { get; }
+        IWalletRepository Wallet { get; }
         void Save();
     }
 }

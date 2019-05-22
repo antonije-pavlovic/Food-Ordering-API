@@ -11,6 +11,6 @@ namespace Repository
         IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
         void Add(TEntity entity);
-        void Remove(TEntity entity);
+        void Remove(TEntity entity);        
     }
 }

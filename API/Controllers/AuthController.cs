@@ -45,7 +45,8 @@ namespace API.Controllers
                 return BadRequest("Emmail is not in good format");
 
             data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
-            _unitOfWork.User.RegisterUser(data);
+            var userId = _unitOfWork.User.RegisterUser(data);
+            _unitOfWork.Wallet.CreateWallet(userId);
             _unitOfWork.Save();
             return Ok("succesfull registration");
         }
@@ -60,7 +61,7 @@ namespace API.Controllers
             if (!data.Email.Contains("@"))
                 return BadRequest("Emmail is not in good format");
             data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
-            var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email);
+            var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email && u.IsDeleted == 0);
             if (valid.Count() == 1)
             {
                 var user = new AuthDTO

@@ -17,6 +17,7 @@ namespace Repository.UnitOfWork
             Category = new CategoryRepository(_context);
             Dish = new DishRepository(_context);
             Wallet = new WalletRepository(_context);
+            Transaction = new TransactionRepository(_context);
         }
 
         public IUserRepository User { get; private set; }
@@ -25,6 +26,8 @@ namespace Repository.UnitOfWork
         public IDishRepository Dish { get; private set; }
 
         public IWalletRepository Wallet { get; private set; }
+
+        public ITransactionRepository Transaction { get; private set; }
 
         public void Dispose()
         {

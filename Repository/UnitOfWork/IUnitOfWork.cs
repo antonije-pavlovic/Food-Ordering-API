@@ -11,6 +11,7 @@ namespace Repository.UnitOfWork
         ICategoryRepository Category { get; }
         IDishRepository Dish { get; }
         IWalletRepository Wallet { get; }
+        ITransactionRepository Transaction { get; }
         void Save();
     }
 }

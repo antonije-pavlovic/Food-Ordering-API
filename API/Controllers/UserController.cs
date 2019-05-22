@@ -22,32 +22,18 @@ namespace API.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-
-        // GET: api/User
-        //[HttpGet]
-        //[Route("Users")]
-        //public IActionResult GetAll()
-        //{           
-        //    return Ok(_unitOfWork.User.GetAll());
-        //}
-
-        // GET: api/User/5
-        //[HttpGet]
-        //public IActionResult Get()
-        //{
-        //    var uid= GetTokenId.getId(this.getClaim());
-        //    var user = _unitOfWork.User.Get(uid);
-        //    return Ok(user);
-        //}
-
-        // POST: api/User
-
-        //[HttpPost]
-        //public IActionResult Post([FromBody] string value)
-        //{
-        //    var id = GetTokenId.getId(this.getClaim());
-        //    return Ok(id);
-        //}
+        [HttpGet]
+        [Route("Transaction")]
+        public IActionResult Transaction()
+        {
+            var id = GetTokenId.getId(this.getClaim());
+            var wallet = _unitOfWork.Wallet.Find(w => w.UserId == id).FirstOrDefault();
+            var transations = _unitOfWork.Transaction.Find(t => t.WalletID == wallet.Id).Select(t => new TransactionDTO {
+                Amount = t.Amount,
+                Type = t.Type
+            });
+            return Ok(transations);
+        }
 
         // PUT: api/User/5
         [HttpPut]

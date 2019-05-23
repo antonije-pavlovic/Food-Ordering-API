@@ -7,7 +7,7 @@ namespace Domain
     public class Cart
     {
         public  int Id { get; set; }
-        public uint Quantity { get; set; } //type of positive intiger only
+        public int Quantity { get; set; }
         public int UserId { get; set; }
         public int DishId { get; set; }
         public User User { get; set; }

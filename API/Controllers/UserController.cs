@@ -29,6 +29,7 @@ namespace API.Controllers
             var id = GetTokenId.getId(this.getClaim());
             var wallet = _unitOfWork.Wallet.Find(w => w.UserId == id).FirstOrDefault();
             var transations = _unitOfWork.Transaction.Find(t => t.WalletID == wallet.Id).Select(t => new TransactionDTO {
+                Id = t.Id,
                 Amount = t.Amount,
                 Type = t.Type
             });

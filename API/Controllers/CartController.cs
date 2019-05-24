@@ -25,7 +25,17 @@ namespace API.Controllers
     [HttpGet]
         public IActionResult Get()
         {
-            return Ok();
+            var uid = GetTokenId.getId(this.getClaim());
+            var cartItems = _unitOfWork.Cart.GetAll().Where(c => c.UserId == uid).Select(c => new
+            {
+                c.Dish.Title,
+                c.Quantity,
+                c.Sum,
+                c.Dish.Price
+            }).ToList();
+            if(cartItems.Any())
+                return Ok(cartItems);
+            return Ok("There is no items in cart");
         }
 
         // GET: api/Cart/5
@@ -46,6 +56,43 @@ namespace API.Controllers
             return Ok(dto);
         }     
 
+        [HttpPost]
+        [Route("Submit")]
+        public IActionResult Submit()
+        {
+            var uid = GetTokenId.getId(this.getClaim());
+            var cartItems = _unitOfWork.Cart.GetAll().Where(c => c.UserId == uid).Select(c => new
+            {
+                c.Dish.Id,
+                c.Dish.Title,
+                c.Quantity,
+                c.Sum,
+                c.Dish.Price                
+            }).ToList();
+            if (!cartItems.Any())                
+                return Ok("There is no items in cart");
+            var overall = 0.0;
+            var desc = "";
+            foreach(var item in cartItems)
+            {
+                desc += item.Title + " " + item.Price + ", " +item.Quantity+ ", sum= " +item.Sum;
+                overall = overall + item.Sum;
+            }
+            var availableMoney = _unitOfWork.Wallet.Find(w => w.UserId == uid).First();
+            if( availableMoney.Balance < overall)
+            {
+                return Ok("You dont have enough money in your wallet,please charge it");
+            }
+            _unitOfWork.Order.InsertOrder(uid, desc, overall);
+            foreach(var item in cartItems)
+            {
+                _unitOfWork.Cart.RemoveFromCart(uid,item.Id);
+            }
+            availableMoney.Balance = availableMoney.Balance - overall;
+            _unitOfWork.Transaction.InsertTransaction(availableMoney.Id, overall, "outcome");
+            _unitOfWork.Save();
+            return Ok("dostava za 45-60min");
+        }
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

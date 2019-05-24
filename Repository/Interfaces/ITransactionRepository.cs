@@ -7,6 +7,6 @@ namespace Repository.Interfaces
 {
     public interface ITransactionRepository: IRepository<Transaction>
     {
-        void InsertTransaction(int walletId, double amount);
+        void InsertTransaction(int walletId, double amount,string type);
     }
 }

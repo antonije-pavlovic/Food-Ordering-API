@@ -39,7 +39,7 @@ namespace API.Controllers
             }
             var currentAmount = _unitOfWork.Wallet.InsertMoney(dto.Balance, id);
             var wallet =_unitOfWork.Wallet.Find(w => w.UserId == id).FirstOrDefault();
-            _unitOfWork.Transaction.InsertTransaction(wallet.Id, dto.Balance);
+            _unitOfWork.Transaction.InsertTransaction(wallet.Id, dto.Balance,"income");
             _unitOfWork.Save();
             return Ok(currentAmount);
         }

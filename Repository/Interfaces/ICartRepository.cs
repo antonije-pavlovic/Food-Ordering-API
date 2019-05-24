@@ -9,5 +9,6 @@ namespace Repository.Interfaces
     {
         void addToCart(int id,int userId,int quantity,double amount);
         int RemoveFromCart(int userId,int dishId);
+      
     }
 }

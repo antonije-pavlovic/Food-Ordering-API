@@ -13,6 +13,7 @@ namespace Repository.UnitOfWork
         IWalletRepository Wallet { get; }
         ITransactionRepository Transaction { get; }
         ICartRepository Cart { get; }
+        IOrderRepository Order { get; }
         void Save();
     }
 }

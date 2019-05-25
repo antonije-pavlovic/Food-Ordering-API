@@ -40,3 +40,4 @@ C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\bin\Debug\netcoreapp2.2\D
 C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\User\Details.g.cshtml.cs
 C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\User\Create.g.cshtml.cs
 C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\User\Edit.g.cshtml.cs
+C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\User\Delete.g.cshtml.cs

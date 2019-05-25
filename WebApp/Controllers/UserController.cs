@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.UnitOfWork;
@@ -23,7 +25,8 @@ namespace WebApp.Controllers
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Email = u.Email
+                    Email = u.Email,
+                    isDeleted = u.IsDeleted
             });
             return View(users);
         }
@@ -31,7 +34,15 @@ namespace WebApp.Controllers
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var user = _unitOfWork.User.Find(u => u.Id == id).Select(u => new UserDTO
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                isDeleted = u.IsDeleted
+            }).FirstOrDefault();
+            return View(user);
         }
 
         // GET: User/Create
@@ -47,8 +58,15 @@ namespace WebApp.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-
+                var user = new AuthDTO
+                {
+                    FirstName = collection["FirstName"],
+                    LastName = collection["LastName"],
+                    Email = collection["Email"],
+                    Password = Compute256Hash.ComputeSha256Hash(collection["Password"])
+                };
+                _unitOfWork.User.RegisterUser(user);
+                _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -60,7 +78,15 @@ namespace WebApp.Controllers
         // GET: User/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var user = _unitOfWork.User.Find(u => u.Id == id).Select(u => new UserDTO
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                isDeleted = u.IsDeleted
+            }).FirstOrDefault();
+            return View(user);
         }
 
         // POST: User/Edit/5
@@ -70,10 +96,16 @@ namespace WebApp.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
+                _unitOfWork.User.UpdateUser(new AuthDTO
+                {
+                    FirstName = collection["FirstName"],
+                    LastName = collection["LastName"],
+                    Email = collection["Email"],
+                    IsDeleted = Int32.Parse(collection["IsDeleted"])
+                }, id);
+                _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
             catch
             {
                 return View();
@@ -83,24 +115,9 @@ namespace WebApp.Controllers
         // GET: User/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: User/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _unitOfWork.User.SoftDelete(id);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

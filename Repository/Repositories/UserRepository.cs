@@ -39,6 +39,8 @@ namespace Repository.Repositories
                 user.Password = Compute256Hash.ComputeSha256Hash(dto.Password);
             if (!String.IsNullOrEmpty(dto.Email))
                 user.Email = dto.Email;
+            if (dto.IsDeleted == 0 || dto.IsDeleted == 1)
+                user.IsDeleted = dto.IsDeleted;
             user.ModifiedAt = DateTime.Now; //ubaci proveru da li je bar nesto poslato da ne modifikuje
         }
 

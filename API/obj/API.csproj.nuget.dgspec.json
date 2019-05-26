@@ -110,7 +110,11 @@
         },
         "frameworks": {
           "netcoreapp2.2": {
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Domain\\Domain.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

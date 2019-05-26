@@ -25,6 +25,7 @@
       "WebApp/1.0.0": {
         "dependencies": {
           "Application": "1.0.0",
+          "Domain": "1.0.0",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
@@ -652,6 +653,7 @@
       },
       "Application/1.0.0": {
         "dependencies": {
+          "Domain": "1.0.0",
           "Microsoft.Extensions.Configuration": "2.2.0",
           "System.IdentityModel.Tokens.Jwt": "5.4.0"
         },

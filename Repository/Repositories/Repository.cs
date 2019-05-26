@@ -25,6 +25,11 @@ namespace Repository.Repositories
             return Context.Set<TEntity>().Where(predicate);
         }
 
+        public IQueryable<TEntity> FindByExpression(Expression<Func<TEntity, bool>> predicate)
+        {
+           return Context.Set<TEntity>().Where(predicate);
+        }
+
         public TEntity Get(int id)
         {
             return Context.Set<TEntity>().Find(id);

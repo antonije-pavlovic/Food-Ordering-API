@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Searches;
+using Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,14 +24,11 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] OrderSearch search)
         {
-            var orders = _unitOfWork.Order.GetAll().Select(o => new OrderDTO
-            {
-                Id =o.Id,
-                CreateAt = o.CreatedtAt,
-                Total = o.Total
-            });
+            var id = GetTokenId.getId(this.getClaim());
+            search.UserId = id;
+            var orders = _unitOfWork.Order.Execute(search);
             return Ok(orders);
         }
 

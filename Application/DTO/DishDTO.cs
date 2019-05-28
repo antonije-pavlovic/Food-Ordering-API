@@ -13,6 +13,6 @@ namespace Application.DTO
         public double Price { get; set; }
         public string Category { get; set; }
         public int CategoryId { get; set; }
-        public List<CategoryDTO> Categories { get; set; }
+        //public List<CategoryDTO> Categories { get; set; }
     }
 }

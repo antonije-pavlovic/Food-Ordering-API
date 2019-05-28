@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Searches;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,16 +26,17 @@ namespace API.Controllers
         // GET: api/Dish
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] DishSearch search)
         {
-            var dishes = _unitOfWork.Dish.GetAll().Select(d => new DishDTO
-            {
-                Titile = d.Title,
-                Ingridients = d.Ingredients,
-                Price = d.Price,
-                CategoryId = d.CategoryId,
-                Category = d.Category.Name
-            }).OrderBy(d => d.Category).ToList();
+            //var dishes = _unitOfWork.Dish.GetAll().Select(d => new DishDTO
+            //{
+            //    Titile = d.Title,
+            //    Ingridients = d.Ingredients,
+            //    Price = d.Price,
+            //    CategoryId = d.CategoryId,
+            //    Category = d.Category.Name
+            //}).OrderBy(d => d.Category).ToList();
+            var dishes = _unitOfWork.Dish.Execute(search);
             return Ok(dishes);
         }
 

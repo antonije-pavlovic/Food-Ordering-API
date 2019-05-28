@@ -129,8 +129,7 @@ namespace WebApp.Controllers
 
         // GET: Dish/Delete/5
         public ActionResult Delete(int id)
-        {           
-            
+        {                       
            _unitOfWork.Dish.RemoveDish(id);
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));

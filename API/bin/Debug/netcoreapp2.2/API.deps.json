@@ -654,6 +654,7 @@
       },
       "Application/1.0.0": {
         "dependencies": {
+          "Domain": "1.0.0",
           "Microsoft.Extensions.Configuration": "2.2.0",
           "System.IdentityModel.Tokens.Jwt": "5.4.0"
         },

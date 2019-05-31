@@ -32,6 +32,9 @@
             "projectReferences": {
               "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Domain\\Domain.csproj": {
                 "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Domain\\Domain.csproj"
+              },
+              "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Repository\\Repository.csproj": {
+                "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Repository\\Repository.csproj"
               }
             }
           }
@@ -220,9 +223,6 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj"
-              },
               "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\DataAccess\\DataAccess.csproj": {
                 "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\DataAccess\\DataAccess.csproj"
               }

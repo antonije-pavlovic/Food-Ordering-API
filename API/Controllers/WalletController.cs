@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.DTO;
 using Application.Services;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,30 +18,25 @@ namespace API.Controllers
     [ApiController]
     public class WalletController : ControllerBase, IToken<ClaimsIdentity>
     {
-        private IUnitOfWork _unitOfWork;
-        public WalletController(IUnitOfWork unitOfWork)
+        private readonly IWalletService _walletService;
+
+        public WalletController(IWalletService walletService)
         {
-            _unitOfWork = unitOfWork;
+            _walletService = walletService;
         }
+
         [HttpGet]
         public IActionResult Get()
         {
             var id = GetTokenId.getId(this.getClaim());
-            var balance = _unitOfWork.Wallet.Find(w => w.UserId == id).FirstOrDefault();
-            return Ok("Wallet balance: " + balance.Balance);
+            var balance = _walletService.GetById(id);         
+            return Ok("Wallet balance: " + balance);
         }
         [HttpPost]
         public IActionResult Post([FromBody] WalletDTO dto)
         {
             var id = GetTokenId.getId(this.getClaim());
-            if (Double.IsNegative(dto.Balance) || dto.Balance < 1 || Double.IsNaN(dto.Balance))
-            {
-                return BadRequest("please insert correct value");
-            }
-            var currentAmount = _unitOfWork.Wallet.InsertMoney(dto.Balance, id);
-            var wallet =_unitOfWork.Wallet.Find(w => w.UserId == id).FirstOrDefault();
-            _unitOfWork.Transaction.InsertTransaction(wallet.Id, dto.Balance,"income");
-            _unitOfWork.Save();
+            var currentAmount = _walletService.InsertTransaction(dto, id);            
             return Ok(currentAmount);
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.DTO;
 using Application.Searches;
 using Application.Services;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +19,19 @@ namespace API.Controllers
     [ApiController]
     public class UserController : ControllerBase, IToken<ClaimsIdentity>
     {
-        private IUnitOfWork _unitOfWork;
-        public UserController(IUnitOfWork unitOfWork)
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
         {
-            _unitOfWork = unitOfWork;
+            _userService = userService;
         }
+
         [HttpGet]
         [Route("Transaction")]
         public IActionResult Transaction([FromQuery] TransactionSearch search)
         {
             var id = GetTokenId.getId(this.getClaim());
-            var wallet = _unitOfWork.Wallet.Find(w => w.UserId == id).FirstOrDefault();
-            search.WalletId = wallet.Id;
-            var transaction = _unitOfWork.Transaction.Execute(search);
+            var transaction = _userService.GetTRansactions(search,id);           
             return Ok(transaction);
         }
 
@@ -39,8 +40,7 @@ namespace API.Controllers
         public IActionResult Put([FromBody] AuthDTO dto)
         {
             var id = GetTokenId.getId(this.getClaim());
-            _unitOfWork.User.UpdateUser(dto, id);
-            _unitOfWork.Save();
+            _userService.Update(dto,id);                       
             return Ok("succesufully updated");
         }
 
@@ -49,8 +49,7 @@ namespace API.Controllers
         public IActionResult Delete()
         {
            var id = GetTokenId.getId(this.getClaim());
-           _unitOfWork.User.SoftDelete(id);
-           _unitOfWork.Save();
+            _userService.DeleteById(id);           
             return Ok("Account deleted");
         }
 

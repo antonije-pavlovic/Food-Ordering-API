@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.DTO;
 using Application.Services;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,25 +18,18 @@ namespace API.Controllers
     [ApiController]
     public class CartController : ControllerBase, IToken<ClaimsIdentity>
     {
-        private IUnitOfWork _unitOfWork;
-        public CartController(IUnitOfWork unitOfWork)
+        private ICartService _cartService;
+        public CartController(ICartService cartService)
         {
-            _unitOfWork = unitOfWork;
+            _cartService = cartService;
         }
-    [HttpGet]
+
+        [HttpGet]
         public IActionResult Get()
         {
-            var uid = GetTokenId.getId(this.getClaim());
-            var cartItems = _unitOfWork.Cart.GetAll().Where(c => c.UserId == uid).Select(c => new
-            {
-                c.Dish.Title,
-                c.Quantity,
-                c.Sum,
-                c.Dish.Price
-            }).ToList();
-            if(cartItems.Any())
-                return Ok(cartItems);
-            return Ok("There is no items in cart");
+            var id  = GetTokenId.getId(this.getClaim());
+            var items = _cartService.ListCart(id);
+            return Ok(items);
         }
 
         // GET: api/Cart/5
@@ -50,9 +44,8 @@ namespace API.Controllers
         public IActionResult Post([FromBody] CartDTO dto)
         {
             var id = GetTokenId.getId(this.getClaim());
-            var dish = _unitOfWork.Dish.Find(d => d.Id == dto.Id).FirstOrDefault();
-            _unitOfWork.Cart.addToCart(dto.Id, id, dto.Quantity, dto.Quantity * dish.Price);
-            _unitOfWork.Save();
+            dto.UserId = id;
+            _cartService.Insert(dto);
             return Ok(dto);
         }     
 
@@ -60,50 +53,16 @@ namespace API.Controllers
         [Route("Submit")]
         public IActionResult Submit()
         {
-            var uid = GetTokenId.getId(this.getClaim());
-            var cartItems = _unitOfWork.Cart.GetAll().Where(c => c.UserId == uid).Select(c => new
-            {
-                c.Dish.Id,
-                c.Dish.Title,
-                c.Quantity,
-                c.Sum,
-                c.Dish.Price                
-            }).ToList();
-            if (!cartItems.Any())                
-                return Ok("There is no items in cart");
-            var overall = 0.0;
-            var desc = "";
-            foreach(var item in cartItems)
-            {
-                desc += item.Title + " " + item.Price + ", " +item.Quantity+ ", sum= " +item.Sum;
-                overall = overall + item.Sum;
-            }
-            var availableMoney = _unitOfWork.Wallet.Find(w => w.UserId == uid).First();
-            if( availableMoney.Balance < overall)
-            {
-                return Ok("You dont have enough money in your wallet,please charge it");
-            }
-            _unitOfWork.Order.InsertOrder(uid, desc, overall);
-            foreach(var item in cartItems)
-            {
-                _unitOfWork.Cart.RemoveFromCart(uid,item.Id);
-            }
-            availableMoney.Balance = availableMoney.Balance - overall;
-            _unitOfWork.Transaction.InsertTransaction(availableMoney.Id, overall, "outcome");
-            _unitOfWork.Save();
+            var id = GetTokenId.getId(this.getClaim());
+            _cartService.Purchase(id);
             return Ok("dostava za 45-60min");
         }
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
-        {
-            var uid = GetTokenId.getId(this.getClaim());
-            var flag = _unitOfWork.Cart.RemoveFromCart(uid, id);
-            _unitOfWork.Save();
-            if (flag == 1)
-                return Ok("successfuly deleted");
-            else
-                return BadRequest("ne moze");
+        {            
+            _cartService.DeleteById(id);
+            return Ok();
         }
 
         public ClaimsIdentity getClaim()

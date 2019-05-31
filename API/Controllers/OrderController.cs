@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.DTO;
 using Application.Searches;
 using Application.Services;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,17 +19,16 @@ namespace API.Controllers
     [ApiController]
     public class OrderController : ControllerBase, IToken<ClaimsIdentity>
     {
-        private IUnitOfWork _unitOfWork;
-        public OrderController(IUnitOfWork unitOfWork)
+        private IOrderService _orderService;
+        public OrderController(IOrderService orderService)
         {
-            _unitOfWork = unitOfWork;
+            _orderService = orderService;
         }
         [HttpGet]
         public IActionResult Get([FromQuery] OrderSearch search)
         {
             var id = GetTokenId.getId(this.getClaim());
-            search.UserId = id;
-            var orders = _unitOfWork.Order.Execute(search);
+            var orders = _orderService.GetOrders(search, id);         
             return Ok(orders);
         }
 

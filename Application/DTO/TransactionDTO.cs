@@ -6,6 +6,7 @@ namespace Application.DTO
 {
     public class TransactionDTO
     {
+        public int WalletId { get; set; }
         public int Id { get; set; }
         public double Amount { get; set; }
         public DateTime CreatedAt { get; set; }

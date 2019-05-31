@@ -12,14 +12,7 @@ namespace Repository.Repositories
     {
         public WalletRepository(RestaurantContext context) : base(context) { }
 
-        public void CreateWallet(int id)
-        {
-            Context.Add(new Wallet
-            {
-                UserId = id,
-                Balance = 0.00
-            });
-        }
+       
 
         public double InsertMoney(double amount, int userId)
         {

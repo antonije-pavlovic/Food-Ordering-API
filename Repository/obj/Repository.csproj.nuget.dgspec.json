@@ -4,70 +4,6 @@
     "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Repository\\Repository.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj",
-        "projectName": "Application",
-        "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\Antonije\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Antonije\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "netcoreapp2.2"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "netcoreapp2.2": {
-            "projectReferences": {
-              "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Domain\\Domain.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "netcoreapp2.2": {
-          "dependencies": {
-            "Microsoft.Extensions.Configuration": {
-              "target": "Package",
-              "version": "[2.2.0, )"
-            },
-            "Microsoft.NETCore.App": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.2.0, )",
-              "autoReferenced": true
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[5.4.0, )"
-            }
-          },
-          "imports": [
-            "net461"
-          ],
-          "assetTargetFallback": true,
-          "warn": true
-        }
-      }
-    },
     "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\DataAccess\\DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -220,9 +156,6 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\Application\\Application.csproj"
-              },
               "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\DataAccess\\DataAccess.csproj": {
                 "projectPath": "C:\\Users\\Antonije\\source\\repos\\FoodOrederingAPI\\DataAccess\\DataAccess.csproj"
               }

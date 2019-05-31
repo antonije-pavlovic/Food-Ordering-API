@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.DTO;
 using Application.Services;
+using Application.Services.Interfaces;
 using DataAccess;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,67 +21,28 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
         private IConfiguration _config;
-
-        public AuthController(IUnitOfWork unitOfWork, IConfiguration config)
+        public AuthController(IUserService userService, IConfiguration config)
         {
-            _unitOfWork = unitOfWork;
+            _userService = userService;
             _config = config;
         }
-        
+
         [HttpPost]
         [Route("Register")]
         public IActionResult Register([FromBody] AuthDTO data)
-        {           
-            if (String.IsNullOrEmpty(data.FirstName))            
-                return BadRequest("First name is required");            
-            if (String.IsNullOrEmpty(data.LastName))            
-                return BadRequest("Last name is required");            
-            if (String.IsNullOrEmpty(data.Email))            
-                return BadRequest("email is required");            
-            if (String.IsNullOrEmpty(data.Password))            
-                return BadRequest("Password is required");
-            if (!data.Email.Contains("@"))
-                return BadRequest("Emmail is not in good format");
-
-            data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
-            var userId = _unitOfWork.User.RegisterUser(data);
-            _unitOfWork.Wallet.CreateWallet(userId);
-            _unitOfWork.Save();
+        {
+            _userService.Insert(data);          
             return Ok("succesfull registration");
         }
+
         [HttpPost]
         [Route("Login")]
         public IActionResult Login([FromBody] AuthDTO data)
         {
-            if (String.IsNullOrEmpty(data.Password))
-                return BadRequest("password is requires");
-            if (String.IsNullOrEmpty(data.Email))
-                return BadRequest("email is requires");
-            if (!data.Email.Contains("@"))
-                return BadRequest("Emmail is not in good format");
-            data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
-            var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email && u.IsDeleted == 0);
-            if (valid.Count() == 1)
-            {
-                var user = new AuthDTO
-                {
-                    Id = valid.First().Id,
-                    FirstName = valid.First().FirstName,
-                    LastName = valid.First().LastName,
-                    Email = valid.First().Email
-                };
-                var token = GenerateToken.GenerateJSONWebToken(user, _config);
-                return Ok(token);
-            }
-            else
-            {
-                return BadRequest("there is on user with this password and email");
-            }              
-
-        }
-
-        
+            _userService.Login(data, _config);
+            return Ok();
+        }        
     }
 }

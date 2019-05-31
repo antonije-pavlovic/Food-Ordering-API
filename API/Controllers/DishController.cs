@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.DTO;
 using Application.Searches;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,10 @@ namespace API.Controllers
     [ApiController]
     public class DishController : ControllerBase, IToken<ClaimsIdentity>
     {
-        private IUnitOfWork _unitOfWork;
-        public DishController(IUnitOfWork unitOfWork)
+        private IDishService _dishService;
+        public DishController(IDishService dishService)
         {
-            _unitOfWork = unitOfWork;
+            _dishService = dishService;
         }
        
         // GET: api/Dish
@@ -28,15 +29,7 @@ namespace API.Controllers
         [AllowAnonymous]
         public IActionResult Get([FromQuery] DishSearch search)
         {
-            //var dishes = _unitOfWork.Dish.GetAll().Select(d => new DishDTO
-            //{
-            //    Titile = d.Title,
-            //    Ingridients = d.Ingredients,
-            //    Price = d.Price,
-            //    CategoryId = d.CategoryId,
-            //    Category = d.Category.Name
-            //}).OrderBy(d => d.Category).ToList();
-            var dishes = _unitOfWork.Dish.Execute(search);
+            var dishes = _dishService.Execute(search);
             return Ok(dishes);
         }
 
@@ -62,7 +55,7 @@ namespace API.Controllers
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
-        {
+        {            
         }
 
         public ClaimsIdentity getClaim()

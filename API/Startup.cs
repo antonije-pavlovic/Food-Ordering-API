@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using Application.DTO;
 using Application.Mailer;
 using Application.Services.Implementation;
 using Application.Services.Interfaces;
 using DataAccess;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Interfaces;
 using Repository.Repositories;
 using Repository.UnitOfWork;
-
+using Application.Validation;
 namespace API
 {
     public class Startup
@@ -58,6 +55,13 @@ namespace API
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<IMailer, Mailer>();
+
+            services.AddMvc()
+               .AddFluentValidation(fv =>
+               {                   
+                   fv.RegisterValidatorsFromAssemblyContaining<WalletValidation>();
+                   fv.RegisterValidatorsFromAssemblyContaining<CartValidation>();
+               });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -38,7 +38,7 @@ namespace API.Controllers
         // PUT: api/User/5
         [HttpPut]
         public IActionResult Put([FromBody] AuthDTO dto)
-        {
+        {            
             var id = GetTokenId.getId(this.getClaim());
             _userService.Update(dto,id);                       
             return Ok("succesufully updated");

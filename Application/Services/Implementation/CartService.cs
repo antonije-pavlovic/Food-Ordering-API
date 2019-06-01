@@ -48,7 +48,6 @@ namespace Application.Services.Implementation
             var dish = _unitOfWork.Dish.Get(dto.DishId);
             if (dish == null)
                 throw new Exception("Dish doesnt exist");
-
             var cart = new Cart
             {
                 DishId = dto.DishId,

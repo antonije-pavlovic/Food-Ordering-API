@@ -35,16 +35,13 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] WalletDTO dto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                var id = GetTokenId.getId(this.getClaim());
-                var currentAmount = _walletService.InsertTransaction(dto, id);
-                return Ok(currentAmount);
+                return BadRequest();
             }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var id = GetTokenId.getId(this.getClaim());
+            var currentAmount = _walletService.InsertTransaction(dto, id);
+            return Ok(currentAmount);
         }
 
         public ClaimsIdentity getClaim()

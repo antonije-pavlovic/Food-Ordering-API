@@ -43,6 +43,10 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CartDTO dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             try
             {
                 var id = GetTokenId.getId(this.getClaim());

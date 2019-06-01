@@ -146,13 +146,20 @@ namespace Application.Services.Implementation
 
         public string Login(AuthDTO data, IConfiguration config)
         {
-            if (String.IsNullOrEmpty(data.Password))
-                throw new Exception("Password is required");
             if (String.IsNullOrEmpty(data.Email))
-                throw new Exception("Email is required");
-            if (!data.Email.Contains("@"))
-                throw new Exception("Emmail is not in good forma");
+            {
+                throw new Exception("Email field is required!");
+            }
 
+            if (String.IsNullOrEmpty(data.Password))
+            {
+                throw new Exception("Password field is required!");
+            }
+
+            if (!data.Email.Contains("@"))
+            {
+                throw new Exception("Enter valid email!");
+            }
             data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
             var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email && u.IsDeleted == 0);
 

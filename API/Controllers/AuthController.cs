@@ -32,16 +32,9 @@ namespace API.Controllers
         [HttpPost]
         [Route("Register")]
         public IActionResult Register([FromBody] AuthDTO data)
-        {
-            try
-            {
-                _userService.Insert(data);
-                return Ok("succesfull registration");
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+        {            
+            _userService.Insert(data);
+            return Ok("succesfull registration");
         }
 
         [HttpPost]

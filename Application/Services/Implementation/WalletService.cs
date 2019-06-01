@@ -47,11 +47,7 @@ namespace Application.Services.Implementation
         }
 
         public double InsertTransaction(WalletDTO dto, int id)
-        {
-            if (Double.IsNegative(dto.Balance) || dto.Balance < 1 || Double.IsNaN(dto.Balance))
-            {
-                throw new Exception("Please your transaction is not ok, please inseert positive number");
-            }
+        {            
             var wallet = _unitOfWork.Wallet.Find(w => w.UserId == id).FirstOrDefault();
             wallet.Balance += dto.Balance;
             _transactionService.Insert(new TransactionDTO

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Mailer;
 using Application.Services.Implementation;
 using Application.Services.Interfaces;
 using DataAccess;
@@ -56,7 +57,7 @@ namespace API
             services.AddTransient<IDishService, DishService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ITransactionService, TransactionService>();
-            services.AddTransient<IWalletService, WalletService>();
+            services.AddTransient<IMailer, Mailer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.Mailer;
 using Application.Responsens;
 using Application.Searches;
 using Application.Services.Interfaces;
@@ -16,10 +17,11 @@ namespace Application.Services.Implementation
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public UserService(IUnitOfWork unitOfWork)
+        private readonly IMailer _mailer;
+        public UserService(IUnitOfWork unitOfWork, IMailer mailer)
         {
             _unitOfWork = unitOfWork;
+            _mailer = mailer;
         }
 
         public void Delete(AuthDTO entity)
@@ -145,7 +147,7 @@ namespace Application.Services.Implementation
         public string Login(AuthDTO data, IConfiguration config)
         {
             if (String.IsNullOrEmpty(data.Password))
-                throw new Exception("LPassword is required");
+                throw new Exception("Password is required");
             if (String.IsNullOrEmpty(data.Email))
                 throw new Exception("Email is required");
             if (!data.Email.Contains("@"))
@@ -172,6 +174,11 @@ namespace Application.Services.Implementation
             }
         }
 
+        public void SendMail(MailDTO dto, int id)
+        {
+            _mailer.SendMail(dto.Subject, dto.Body, id);
+        }
+
         public void Update(AuthDTO entity,int id)
         {
             var user = _unitOfWork.User.Get(id);
@@ -188,5 +195,6 @@ namespace Application.Services.Implementation
             user.ModifiedAt = DateTime.Now;            
             _unitOfWork.Save();
         }
+       
     }
 }

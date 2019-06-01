@@ -12,5 +12,6 @@ namespace Application.Services.Interfaces
     {
         PageResponse<TransactionDTO> GetTRansactions(TransactionSearch search, int id);
         string Login(AuthDTO dto,IConfiguration config);
+        void SendMail(MailDTO dto, int id);
     }
 }

@@ -52,7 +52,14 @@ namespace API.Controllers
             _userService.DeleteById(id);           
             return Ok("Account deleted");
         }
-
+        [HttpPost]
+        [Route("contact")]
+        public IActionResult Contact([FromBody]MailDTO dto )
+        {
+            var id = GetTokenId.getId(this.getClaim());
+            _userService.SendMail(dto,id);
+            return Ok();
+        }
         public ClaimsIdentity getClaim()
         {
            return User.Identity as ClaimsIdentity;

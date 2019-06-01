@@ -27,9 +27,16 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery] OrderSearch search)
         {
-            var id = GetTokenId.getId(this.getClaim());
-            var orders = _orderService.GetOrders(search, id);         
-            return Ok(orders);
+            try
+            {
+                var id = GetTokenId.getId(this.getClaim());
+                var orders = _orderService.GetOrders(search, id);
+                return Ok(orders);
+            }
+            catch(Exception e)
+            {
+                return Ok(e.Message);
+            }
         }
 
         public ClaimsIdentity getClaim()

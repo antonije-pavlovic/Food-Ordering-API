@@ -29,15 +29,22 @@ namespace API.Controllers
         public IActionResult Get()
         {
             var id = GetTokenId.getId(this.getClaim());
-            var balance = _walletService.GetById(id);         
-            return Ok("Wallet balance: " + balance);
+            var wallet = _walletService.GetById(id);         
+            return Ok("Wallet balance: " + wallet.Balance);
         }
         [HttpPost]
         public IActionResult Post([FromBody] WalletDTO dto)
         {
-            var id = GetTokenId.getId(this.getClaim());
-            var currentAmount = _walletService.InsertTransaction(dto, id);            
-            return Ok(currentAmount);
+            try
+            {
+                var id = GetTokenId.getId(this.getClaim());
+                var currentAmount = _walletService.InsertTransaction(dto, id);
+                return Ok(currentAmount);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         public ClaimsIdentity getClaim()

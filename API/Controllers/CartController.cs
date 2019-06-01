@@ -27,42 +27,56 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var id  = GetTokenId.getId(this.getClaim());
-            var items = _cartService.ListCart(id);
-            return Ok(items);
+            try
+            {
+                var id = GetTokenId.getId(this.getClaim());
+                var items = _cartService.ListCart(id);
+                return Ok(items);
+            }
+            catch(Exception e)
+            {
+                return Ok(e.Message);
+            }
         }
-
-        // GET: api/Cart/5
-        [HttpGet("{id}",Name ="GetCart")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+       
         // POST: api/Cart
         [HttpPost]
         public IActionResult Post([FromBody] CartDTO dto)
         {
-            var id = GetTokenId.getId(this.getClaim());
-            dto.UserId = id;
-            _cartService.Insert(dto);
-            return Ok(dto);
+            try
+            {
+                var id = GetTokenId.getId(this.getClaim());
+                dto.UserId = id;
+                _cartService.Insert(dto);
+                return Ok("succesfuly added to cart");
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }     
 
         [HttpPost]
         [Route("Submit")]
         public IActionResult Submit()
         {
-            var id = GetTokenId.getId(this.getClaim());
-            _cartService.Purchase(id);
-            return Ok("dostava za 45-60min");
+            try
+            {
+                var id = GetTokenId.getId(this.getClaim());
+                _cartService.Purchase(id);
+                return Ok("dostava za 45-60min");
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
-        {            
+        {
             _cartService.DeleteById(id);
-            return Ok();
+            return Ok("succesfully deleted");
         }
 
         public ClaimsIdentity getClaim()

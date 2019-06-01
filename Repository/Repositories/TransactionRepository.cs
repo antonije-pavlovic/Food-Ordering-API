@@ -1,6 +1,4 @@
-﻿using Application.DTO;
-using Application.Responsens;
-using Application.Searches;
+﻿
 using DataAccess;
 using Domain;
 using Repository.Interfaces;

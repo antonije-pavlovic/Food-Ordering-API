@@ -70,6 +70,8 @@ namespace Application.Services.Implementation
                     Description = o.Description
                 })
             };
+            if (response == null)
+                throw new Exception("there is now order yet");
             return response;
         }
 

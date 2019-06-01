@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Services.Implementation;
+using Application.Services.Interfaces;
 using DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -48,6 +50,13 @@ namespace API
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+           
+            services.AddTransient<ICartService, CartService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IDishService, DishService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IWalletService, WalletService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

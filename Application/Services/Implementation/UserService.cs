@@ -71,18 +71,34 @@ namespace Application.Services.Implementation
                     Type = t.Type,
                     CreatedAt = t.CreatedtAt
                 })
-            };
+            };            
             return response;
         }
 
         public IQueryable<AuthDTO> GetAll()
         {
-            throw new NotImplementedException();
+           var users = _unitOfWork.User.GetAll().Select(u => new AuthDTO
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                IsDeleted = u.IsDeleted
+            });
+            return users;
         }        
 
         public AuthDTO GetById(int id)
         {
-            throw new NotImplementedException();
+           var user = _unitOfWork.User.Find(u => u.Id == id).Select(u => new AuthDTO
+           {
+               Id = u.Id,
+               FirstName = u.FirstName,
+               LastName = u.LastName,
+               Email = u.Email,
+               IsDeleted = u.IsDeleted
+           }).FirstOrDefault();
+            return user;
         }
 
         public PageResponse<TransactionDTO> GetTRansactions(TransactionSearch search, int id)
@@ -152,7 +168,7 @@ namespace Application.Services.Implementation
             }
             else
             {
-                throw new Exception("log in bla bla");
+                throw new Exception("User not found");
             }
         }
 

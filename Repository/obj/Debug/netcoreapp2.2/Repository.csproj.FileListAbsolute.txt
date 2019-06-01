@@ -12,5 +12,3 @@ C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2
 C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.csproj.CopyComplete
 C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.dll
 C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\obj\Debug\netcoreapp2.2\Repository.pdb
-C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Application.dll
-C:\Users\Antonije\source\repos\FoodOrederingAPI\Repository\bin\Debug\netcoreapp2.2\Application.pdb

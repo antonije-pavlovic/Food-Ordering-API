@@ -34,12 +34,29 @@ namespace Application.Services.Implementation
 
         public IQueryable<DishDTO> GetAll()
         {
-            throw new NotImplementedException();
+            var dishes = _unitOfWork.Dish.GetAll().Select(d => new DishDTO
+            {
+                Id = d.Id,
+                Titile = d.Title,
+                Ingridients = d.Ingredients,
+                Serving = d.Serving,
+                Price = d.Price,
+                Category = d.Category.Name
+            });
+            return dishes;
         } 
 
         public DishDTO GetById(int id)
         {
-            throw new NotImplementedException();
+            var dish = _unitOfWork.Dish.Find(d => d.Id == id).Select(d => new DishDTO
+            {
+                Id = d.Id,
+                Ingridients = d.Ingredients,
+                Price = d.Price,
+                Serving =d.Serving,
+                Titile = d.Title
+            }).FirstOrDefault();
+            return dish;
         }
 
         public PageResponse<DishDTO> Execute(DishSearch search)

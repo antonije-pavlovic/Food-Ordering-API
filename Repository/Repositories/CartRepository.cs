@@ -7,7 +7,7 @@ using System.Text;
 using System.Linq;
 namespace Repository.Repositories
 {
-    public class CartRepository : Repository<Cart>, ICartRepository
+    public class CartRepository : Repository<Cart>,ICartRepository
     {
         public CartRepository(RestaurantContext context) : base(context) { }       
      

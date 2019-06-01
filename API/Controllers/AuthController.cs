@@ -33,16 +33,30 @@ namespace API.Controllers
         [Route("Register")]
         public IActionResult Register([FromBody] AuthDTO data)
         {
-            _userService.Insert(data);          
-            return Ok("succesfull registration");
+            try
+            {
+                _userService.Insert(data);
+                return Ok("succesfull registration");
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
         [Route("Login")]
         public IActionResult Login([FromBody] AuthDTO data)
         {
-            _userService.Login(data, _config);
-            return Ok();
+            try
+            {
+                var token = _userService.Login(data, _config);
+                return Ok(token);
+            }
+            catch(Exception e)
+            {
+                return Unauthorized(e.Message);
+            }
         }        
     }
 }

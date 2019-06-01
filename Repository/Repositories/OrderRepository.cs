@@ -1,7 +1,4 @@
-﻿using Application.DTO;
-using Application.Responsens;
-using Application.Searches;
-using DataAccess;
+﻿using DataAccess;
 using Domain;
 using Repository.Interfaces;
 using System;
@@ -11,7 +8,7 @@ using System.Text;
 
 namespace Repository.Repositories
 {
-    public class OrderRepository : Repository<Order>, IOrderRepository
+    public class OrderRepository : Repository<Order>,IOrderRepository
     {
         public OrderRepository(RestaurantContext context) : base(context) { }
 

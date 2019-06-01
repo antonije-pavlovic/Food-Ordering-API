@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.UnitOfWork;
@@ -11,32 +12,24 @@ namespace WebApp.Controllers
 {
     public class CategoryController : Controller
     {
-        private IUnitOfWork _unitOfWork;
-        public CategoryController(IUnitOfWork unitOfWork)
+        private readonly ICategoryService _categoryService;      
+
+        public CategoryController(ICategoryService categoryService)
         {
-            _unitOfWork = unitOfWork;
+            _categoryService = categoryService;
         }
+
         // GET: Category
         public ActionResult Index()
         {
-            var categories = _unitOfWork.Category.GetAll().Select( c => new CategoryDTO
-            {
-                Id = c.Id,
-                Name = c.Name,
-                CreatedAt = c.CreatedtAt
-            });
+            var categories = _categoryService.GetAll();
             return View(categories);
         }
 
         // GET: Category/Details/5
         public ActionResult Details(int id)
         {
-            var category = _unitOfWork.Category.Find(c => c.Id == id).Select(c => new CategoryDTO
-            {
-                Id = c.Id,
-                Name = c.Name,
-                CreatedAt = c.CreatedtAt
-            }).FirstOrDefault();
+            var category = _categoryService.GetById(id);
             return View(category);
         }
 
@@ -57,8 +50,7 @@ namespace WebApp.Controllers
                 {
                     Name = collection["Name"]
                 };
-                _unitOfWork.Category.AddCategory(category);
-                _unitOfWork.Save();
+                _categoryService.Insert(category);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -71,12 +63,7 @@ namespace WebApp.Controllers
         // GET: Category/Edit/5
         public ActionResult Edit(int id)
         {
-            var category = _unitOfWork.Category.Find(c => c.Id == id).Select(c => new CategoryDTO
-            {
-                Id = c.Id,
-                Name = c.Name,
-                CreatedAt = c.CreatedtAt
-            }).FirstOrDefault();
+            var category = _categoryService.GetById(id);
             return View(category);
         }
 
@@ -91,8 +78,7 @@ namespace WebApp.Controllers
                 {
                     Name = collection["Name"]
                 };
-                _unitOfWork.Category.UpdateCategory(cat, id);
-                _unitOfWork.Save();
+                _categoryService.Update(cat,id);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -104,11 +90,7 @@ namespace WebApp.Controllers
         // GET: Category/Delete/5
         public ActionResult Delete(int id)
         {
-            _unitOfWork.Category.DeleteCategory(new CategoryDTO
-            {
-                Id = id
-            });
-            _unitOfWork.Save();
+            _categoryService.DeleteById(id);
             return RedirectToAction(nameof(Index));
         }       
     }

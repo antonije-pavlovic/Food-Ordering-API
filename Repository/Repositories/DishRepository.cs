@@ -1,7 +1,4 @@
-﻿using Application.DTO;
-using Application.Responsens;
-using Application.Searches;
-using Domain;
+﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 using System;

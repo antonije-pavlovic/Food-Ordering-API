@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.DTO;
 using Application.Services;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.UnitOfWork;
@@ -13,35 +14,24 @@ namespace WebApp.Controllers
 {
     public class UserController : Controller
     {
-        IUnitOfWork _unitOfWork;
-        public UserController(IUnitOfWork unitOfWork)
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
         {
-            _unitOfWork = unitOfWork;
+            _userService = userService;
         }
+
         // GET: User
         public ActionResult Index()
         {
-            var users = _unitOfWork.User.GetAll().Select(u => new UserDTO {
-                    Id = u.Id,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email,
-                    isDeleted = u.IsDeleted
-            });
+            var users = _userService.GetAll();
             return View(users);
         }
 
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            var user = _unitOfWork.User.Find(u => u.Id == id).Select(u => new UserDTO
-            {
-                Id = u.Id,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email,
-                isDeleted = u.IsDeleted
-            }).FirstOrDefault();
+            var user = _userService.GetById(id);
             return View(user);
         }
 
@@ -65,8 +55,7 @@ namespace WebApp.Controllers
                     Email = collection["Email"],
                     Password = Compute256Hash.ComputeSha256Hash(collection["Password"])
                 };
-                _unitOfWork.User.RegisterUser(user);
-                _unitOfWork.Save();
+                _userService.Insert(user);                
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -78,14 +67,7 @@ namespace WebApp.Controllers
         // GET: User/Edit/5
         public ActionResult Edit(int id)
         {
-            var user = _unitOfWork.User.Find(u => u.Id == id).Select(u => new UserDTO
-            {
-                Id = u.Id,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email,
-                isDeleted = u.IsDeleted
-            }).FirstOrDefault();
+            var user = _userService.GetById(id);            
             return View(user);
         }
 
@@ -96,17 +78,16 @@ namespace WebApp.Controllers
         {
             try
             {
-                _unitOfWork.User.UpdateUser(new AuthDTO
+                var userDto = new AuthDTO
                 {
                     FirstName = collection["FirstName"],
                     LastName = collection["LastName"],
                     Email = collection["Email"],
                     IsDeleted = Int32.Parse(collection["IsDeleted"])
-                }, id);
-                _unitOfWork.Save();
+                };
+                _userService.Update(userDto, id);
             return RedirectToAction(nameof(Index));
-        }
-            catch
+            }catch
             {
                 return View();
             }
@@ -115,8 +96,7 @@ namespace WebApp.Controllers
         // GET: User/Delete/5
         public ActionResult Delete(int id)
         {
-            _unitOfWork.User.SoftDelete(id);
-            _unitOfWork.Save();
+            _userService.DeleteById(id);
             return RedirectToAction(nameof(Index));
         }
     }

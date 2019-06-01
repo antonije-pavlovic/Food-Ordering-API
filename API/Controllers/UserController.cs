@@ -56,9 +56,16 @@ namespace API.Controllers
         [Route("contact")]
         public IActionResult Contact([FromBody]MailDTO dto )
         {
-            var id = GetTokenId.getId(this.getClaim());
-            _userService.SendMail(dto,id);
-            return Ok();
+            try
+            {
+                var id = GetTokenId.getId(this.getClaim());
+                _userService.SendMail(dto, id);
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return Ok("Servis is temporary out of function");
+            }
         }
         public ClaimsIdentity getClaim()
         {

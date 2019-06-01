@@ -12,7 +12,7 @@ namespace Application.Mailer
         private readonly string _hostMail = "mr.antonije@gmail.com";
         private readonly string _mailServer = "smtp.gmail.com";
         private readonly int _mailPort = 587;
-        private readonly string _password = "klarasuman";
+        private readonly string _password = "";
         private readonly bool _secure = false;
         private MimeMessage _msg;
         private readonly IUnitOfWork _unitOfWork;

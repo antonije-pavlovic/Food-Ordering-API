@@ -12,5 +12,6 @@ namespace Application.DTO
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int IsDeleted { get; set; }
+        public int RoleId { get; set; }
     }
 }

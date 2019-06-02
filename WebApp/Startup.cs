@@ -17,6 +17,7 @@ using System.Text;
 using DataAccess;
 using Application.Services.Interfaces;
 using Application.Services.Implementation;
+using Application.Mailer;
 
 namespace WebApp
 {
@@ -46,7 +47,7 @@ namespace WebApp
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IDishService, DishService>();
             services.AddTransient<ICategoryService, CategoryService>();
-
+            services.AddTransient<IMailer, Mailer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

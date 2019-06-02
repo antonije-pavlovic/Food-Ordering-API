@@ -26,7 +26,7 @@ namespace API.Controllers
        
         // GET: api/Dish
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles="1")]
         public IActionResult Get([FromQuery] DishSearch search)
         {
             var dishes = _dishService.Execute(search);

@@ -20,9 +20,11 @@ namespace Repository.UnitOfWork
             Transaction = new TransactionRepository(_context);
             Cart = new CartRepository(_context);
             Order = new OrderRepository(_context);
+            Role = new RoleRepository(_context);
         }
 
         public IUserRepository User { get; private set; }
+        public IRolesRepository Role { get; private set; }
         public ICategoryRepository Category { get; private set; }
 
         public IDishRepository Dish { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,7 +12,7 @@ namespace Application.Services
 {
     public class GenerateToken
     {      
-        public static string GenerateJSONWebToken(AuthDTO dto,IConfiguration config)
+        public static string GenerateJSONWebToken(User dto,IConfiguration config)
         {
             Console.WriteLine(dto.Email);
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
@@ -22,6 +23,7 @@ namespace Application.Services
                 new Claim(JwtRegisteredClaimNames.Email, dto.Email),               
                 new Claim(JwtRegisteredClaimNames.GivenName, dto.FirstName),
                 new Claim(JwtRegisteredClaimNames.FamilyName, dto.LastName),
+                new Claim("Roles", dto.RoleId.ToString())
             };
 
             var token = new JwtSecurityToken(config["Jwt:Issuer"],

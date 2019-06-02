@@ -83,13 +83,15 @@ namespace WebApp.Controllers
                     FirstName = collection["FirstName"],
                     LastName = collection["LastName"],
                     Email = collection["Email"],
-                    IsDeleted = Int32.Parse(collection["IsDeleted"])
+                    IsDeleted = Int32.Parse(collection["IsDeleted"]),
+                    RoleId = Int16.Parse(collection["RoleId"])
                 };
                 _userService.Update(userDto, id);
             return RedirectToAction(nameof(Index));
-            }catch
+            }catch(Exception e)
             {
-                return View();
+                return Ok(e.Message);
+                return View(e);
             }
         }
 

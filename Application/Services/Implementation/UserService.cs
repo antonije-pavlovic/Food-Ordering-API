@@ -85,7 +85,8 @@ namespace Application.Services.Implementation
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
-                IsDeleted = u.IsDeleted
+                IsDeleted = u.IsDeleted,
+                RoleId = u.RoleId                
             });
             return users;
         }        
@@ -98,7 +99,8 @@ namespace Application.Services.Implementation
                FirstName = u.FirstName,
                LastName = u.LastName,
                Email = u.Email,
-               IsDeleted = u.IsDeleted
+               IsDeleted = u.IsDeleted,
+               RoleId = u.RoleId
            }).FirstOrDefault();
             return user;
         }
@@ -161,18 +163,11 @@ namespace Application.Services.Implementation
                 throw new Exception("Enter valid email!");
             }
             data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
-            var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email && u.IsDeleted == 0);
+            var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email && u.IsDeleted == 0).FirstOrDefault();
 
-            if (valid.Count() == 1)
-            {
-                var user = new AuthDTO
-                {
-                    Id = valid.First().Id,
-                    FirstName = valid.First().FirstName,
-                    LastName = valid.First().LastName,
-                    Email = valid.First().Email
-                };
-                var token = GenerateToken.GenerateJSONWebToken(user, config);
+            if (valid != null)
+            {                
+                var token = GenerateToken.GenerateJSONWebToken(valid, config);
                 return token;
             }
             else
@@ -199,9 +194,10 @@ namespace Application.Services.Implementation
                 user.Email = entity.Email;
             if (entity.IsDeleted == 0 || entity.IsDeleted == 1)
                 user.IsDeleted = entity.IsDeleted;
+            if (entity.RoleId == 1 || entity.RoleId == 2)
+                user.RoleId = entity.RoleId;
             user.ModifiedAt = DateTime.Now;            
             _unitOfWork.Save();
-        }
-       
+        }       
     }
 }

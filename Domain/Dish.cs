@@ -12,6 +12,7 @@ namespace Domain
         public string Serving { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public string Image { get; set; }
 
     }
 }

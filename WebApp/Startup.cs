@@ -18,6 +18,8 @@ using DataAccess;
 using Application.Services.Interfaces;
 using Application.Services.Implementation;
 using Application.Mailer;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace WebApp
 {
@@ -48,6 +50,7 @@ namespace WebApp
             services.AddTransient<IDishService, DishService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IMailer, Mailer>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

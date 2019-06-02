@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.DTO;
@@ -49,24 +50,26 @@ namespace WebApp.Controllers
         // POST: Dish/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(IFormCollection collection, IFormFile file)
         {
             try
-            {               
+            {
+                var path = this.UploadFile(file);
                 var dish = new DishDTO
                 {
                     Titile = collection["Dish.Titile"],
                     Serving = collection["Dish.Serving"],
                     Ingridients = collection["Dish.Ingridients"],
                     Price = Double.Parse(collection["Dish.Price"]),
-                    CategoryId = Int32.Parse(collection["Dish.CategoryId"])
+                    CategoryId = Int32.Parse(collection["Dish.CategoryId"]),
+                    Image = path
                 };
                 _dishService.Insert(dish);              
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                return Ok(e.Message);
             }
         }
 
@@ -113,7 +116,17 @@ namespace WebApp.Controllers
             _dishService.DeleteById(id);
             return RedirectToAction(nameof(Index));
         }
+        public string UploadFile(IFormFile file)
+        {
+            var fileName = file.FileName;
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
 
-       
+            return fileName;
+        }
+
     }
 }

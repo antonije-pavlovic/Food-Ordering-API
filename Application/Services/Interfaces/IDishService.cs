@@ -10,5 +10,6 @@ namespace Application.Services.Interfaces
     public interface IDishService : IService<DishDTO>
     {
         PageResponse<DishDTO> Execute(DishSearch search);
+
     }
 }

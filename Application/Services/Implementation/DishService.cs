@@ -41,7 +41,8 @@ namespace Application.Services.Implementation
                 Ingridients = d.Ingredients,
                 Serving = d.Serving,
                 Price = d.Price,
-                Category = d.Category.Name
+                Category = d.Category.Name,
+                Image = d.Image
             });
             return dishes;
         } 
@@ -54,7 +55,8 @@ namespace Application.Services.Implementation
                 Ingridients = d.Ingredients,
                 Price = d.Price,
                 Serving =d.Serving,
-                Titile = d.Title
+                Titile = d.Title,
+                Image = d.Image
             }).FirstOrDefault();
             return dish;
         }
@@ -117,7 +119,8 @@ namespace Application.Services.Implementation
                 Price = dto.Price,
                 Serving = dto.Serving,
                 Ingredients = dto.Ingridients,
-                CategoryId = dto.CategoryId
+                CategoryId = dto.CategoryId,
+                Image = dto.Image
             };
             _unitOfWork.Dish.Add(dish);
             _unitOfWork.Save();

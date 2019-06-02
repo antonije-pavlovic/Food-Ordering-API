@@ -6,6 +6,7 @@ namespace Application.DTO
 {
     public class DishDTO
     {
+        public string Image { get; set; }
         public int Id { get; set; }
         public string Titile { get; set; }
         public string Ingridients { get; set; }

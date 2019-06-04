@@ -10,6 +10,7 @@ using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Repository.UnitOfWork;
 
 namespace API.Controllers
@@ -17,20 +18,22 @@ namespace API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase, IToken<ClaimsIdentity>
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private IConfiguration _config;       
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IConfiguration config)
         {
             _userService = userService;
+            _config = config;            
         }
 
         [HttpGet]
         [Route("Transaction")]
         public IActionResult Transaction([FromQuery] TransactionSearch search)
         {
-            var id = GetTokenId.getId(this.getClaim());
+            var id = GetTokenId.getId(User);
             var transaction = _userService.GetTRansactions(search,id);           
             return Ok(transaction);
         }
@@ -38,8 +41,8 @@ namespace API.Controllers
         // PUT: api/User/5
         [HttpPut]
         public IActionResult Put([FromBody] AuthDTO dto)
-        {            
-            var id = GetTokenId.getId(this.getClaim());
+        {
+            var id = GetTokenId.getId(User);
             _userService.Update(dto,id);                       
             return Ok("succesufully updated");
         }
@@ -48,7 +51,7 @@ namespace API.Controllers
         [HttpDelete]
         public IActionResult Delete()
         {
-           var id = GetTokenId.getId(this.getClaim());
+            var id = GetTokenId.getId(User);
             _userService.DeleteById(id);           
             return Ok("Account deleted");
         }
@@ -58,7 +61,7 @@ namespace API.Controllers
         {
             try
             {
-                var id = GetTokenId.getId(this.getClaim());
+                var id = GetTokenId.getId(User);
                 _userService.SendMail(dto, id);
                 return Ok();
             }
@@ -66,10 +69,6 @@ namespace API.Controllers
             {
                 return Ok("Servis is temporary out of function");
             }
-        }
-        public ClaimsIdentity getClaim()
-        {
-           return User.Identity as ClaimsIdentity;
-        }
+        }       
     }
 }

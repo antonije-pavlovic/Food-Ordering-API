@@ -54,7 +54,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var path = this.UploadFile(file);
+                var path = UploadFile(file);
                 var dish = new DishDTO
                 {
                     Titile = collection["Dish.Titile"],
@@ -108,7 +108,7 @@ namespace WebApp.Controllers
                     var path = UploadFile(file);
                     dto.Image = path;
                 }
-                _dishService.Update(dto, id);
+                 _dishService.Update(dto, id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)

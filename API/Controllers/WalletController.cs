@@ -16,7 +16,7 @@ namespace API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WalletController : ControllerBase, IToken<ClaimsIdentity>
+    public class WalletController : ControllerBase
     {
         private readonly IWalletService _walletService;
 
@@ -28,25 +28,23 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var id = GetTokenId.getId(this.getClaim());
-            var wallet = _walletService.GetById(id);         
-            return Ok("Wallet balance: " + wallet.Balance);
+            try
+            {
+                var id = GetTokenId.getId(User);
+                var wallet = _walletService.GetById(id);
+                return Ok("Wallet balance: " + wallet.Balance);
+            }
+            catch(Exception e)
+            {
+                return Ok(e.Message);
+            }
         }
         [HttpPost]
         public IActionResult Post([FromBody] WalletDTO dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            var id = GetTokenId.getId(this.getClaim());
+            var id = GetTokenId.getId(User);
             var currentAmount = _walletService.InsertTransaction(dto, id);
             return Ok(currentAmount);
-        }
-
-        public ClaimsIdentity getClaim()
-        {
-            return User.Identity as ClaimsIdentity;
-        }
+        }        
     }
 }

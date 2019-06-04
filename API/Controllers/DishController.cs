@@ -16,7 +16,7 @@ namespace API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class DishController : ControllerBase, IToken<ClaimsIdentity>
+    public class DishController : ControllerBase
     {
         private IDishService _dishService;
         public DishController(IDishService dishService)
@@ -58,9 +58,6 @@ namespace API.Controllers
         {            
         }
 
-        public ClaimsIdentity getClaim()
-        {
-            return User.Identity as ClaimsIdentity;
-        }
+        
     }
 }

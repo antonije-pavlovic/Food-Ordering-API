@@ -17,6 +17,9 @@ using Repository.Interfaces;
 using Repository.Repositories;
 using Repository.UnitOfWork;
 using Application.Validation;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+
 namespace API
 {
     public class Startup
@@ -56,6 +59,7 @@ namespace API
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<IMailer, Mailer>();
+            services.AddTransient<IWalletService, WalletService>();
             services.AddTransient<ICategoryService, CategoryService>();
 
             services.AddMvc()
@@ -64,6 +68,23 @@ namespace API
                    fv.RegisterValidatorsFromAssemblyContaining<WalletValidation>();
                    fv.RegisterValidatorsFromAssemblyContaining<CartValidation>();
                });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Food ordering API", Version = "v1" });
+                var security = new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[] { }},
+                };
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.AddSecurityRequirement(security);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +96,12 @@ namespace API
             }
             app.UseAuthentication();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1w");
+            });
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase, IToken<ClaimsIdentity>
+    public class OrderController : ControllerBase
     {
         private IOrderService _orderService;
         public OrderController(IOrderService orderService)
@@ -29,7 +29,7 @@ namespace API.Controllers
         {
             try
             {
-                var id = GetTokenId.getId(this.getClaim());
+                var id = GetTokenId.getId(User);
                 var orders = _orderService.GetOrders(search, id);
                 return Ok(orders);
             }
@@ -38,10 +38,6 @@ namespace API.Controllers
                 return Ok(e.Message);
             }
         }
-
-        public ClaimsIdentity getClaim()
-        {
-            return User.Identity as ClaimsIdentity;
-        }
+       
     }
 }

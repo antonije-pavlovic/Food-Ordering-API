@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Repository.UnitOfWork;
 using System;
@@ -9,18 +10,20 @@ namespace Application.Mailer
 {
     public class Mailer : IMailer
     {
-        private readonly string _hostMail = "mr.antonije@gmail.com";
-        private readonly string _mailServer = "smtp.gmail.com";
+        private readonly string _hostMail ="";
+        private readonly string _mailServer = "";
         private readonly int _mailPort = 587;
         private readonly string _password = "";
         private readonly bool _secure = false;
         private MimeMessage _msg;
         private readonly IUnitOfWork _unitOfWork;
-        public Mailer(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _config;
+        public Mailer(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
             _msg = new MimeMessage();
             _msg.To.Add(new MailboxAddress(_hostMail));
+            _config = config;            
         }
         public void SendMail(string subject, string body, int id)
         {

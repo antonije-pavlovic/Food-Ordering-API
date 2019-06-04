@@ -16,7 +16,7 @@ namespace API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class CartController : ControllerBase, IToken<ClaimsIdentity>
+    public class CartController : ControllerBase
     {
         private ICartService _cartService;
         public CartController(ICartService cartService)
@@ -29,7 +29,7 @@ namespace API.Controllers
         {
             try
             {
-                var id = GetTokenId.getId(this.getClaim());
+                var id = GetTokenId.getId(User);
                 var items = _cartService.ListCart(id);
                 return Ok(items);
             }
@@ -49,7 +49,7 @@ namespace API.Controllers
             }
             try
             {
-                var id = GetTokenId.getId(this.getClaim());
+                var id = GetTokenId.getId(User);
                 dto.UserId = id;
                 _cartService.Insert(dto);
                 return Ok("succesfuly added to cart");
@@ -66,7 +66,7 @@ namespace API.Controllers
         {
             try
             {
-                var id = GetTokenId.getId(this.getClaim());
+                var id = GetTokenId.getId(User);
                 _cartService.Purchase(id);
                 return Ok("dostava za 45-60min");
             }
@@ -79,7 +79,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete([FromBody] CartDTO dto)
         {
-            var id = GetTokenId.getId(this.getClaim());
+            var id = GetTokenId.getId(User);
             if (_cartService.CheckItemExist(id, dto.Id))
             {
                 _cartService.DeleteById(dto.Id);
@@ -87,15 +87,11 @@ namespace API.Controllers
             }            
             return Ok("Order does not exist in cart");
         }
-
-        public ClaimsIdentity getClaim()
-        {
-            return User.Identity as ClaimsIdentity;
-        }
+        
         [HttpPut]
         public IActionResult Put([FromBody] CartDTO dto)
         {
-            var id = GetTokenId.getId(this.getClaim());
+            var id = GetTokenId.getId(User);
             try
             {
                 if (_cartService.CheckItemExist(id, dto.Id))

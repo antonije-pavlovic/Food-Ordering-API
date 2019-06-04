@@ -8,10 +8,17 @@ namespace Application.Services
 {
     public class GetTokenId
     {
-        public static int getId(ClaimsIdentity claimsIdentity)
+        public static int getId(ClaimsPrincipal User)
         {
-            var id = claimsIdentity.Claims.Where(x => x.Type == "sid").FirstOrDefault().Value;
-            return Int32.Parse(id);
+            var claimsIdentity = GetClaim(User);
+            var userId = claimsIdentity.Claims.Where(x => x.Type == "sid").FirstOrDefault().Value;
+            return Int32.Parse(userId);
         }
+
+        public static ClaimsIdentity GetClaim(ClaimsPrincipal User)
+        {
+            return User.Identity as ClaimsIdentity;
+        }
+
     }
 }

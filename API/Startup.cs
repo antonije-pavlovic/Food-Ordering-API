@@ -56,6 +56,7 @@ namespace API
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<IMailer, Mailer>();
+            services.AddTransient<ICategoryService, CategoryService>();
 
             services.AddMvc()
                .AddFluentValidation(fv =>

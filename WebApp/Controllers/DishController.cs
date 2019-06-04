@@ -89,22 +89,29 @@ namespace WebApp.Controllers
         // POST: Dish/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, IFormCollection collection, IFormFile file)
         {
             try
             {
-                var newDish = new DishDTO
+                var dto = new DishDTO()
                 {
-                    Titile = collection["Dish.Titile"],
-                    Serving = collection["Dish.Serving"],
-                    Price = Double.Parse(collection["Dish.Price"]),
+                    Titile= collection["Dish.Titile"],
                     Ingridients = collection["Dish.Ingridients"],
-                    CategoryId = Int32.Parse(collection["Dish.CategoryId"])
+                    Price = Double.Parse(collection["Dish.Price"]),
+                    Serving = collection["Dish.Serving"],
+                    CategoryId = Int32.Parse(collection["Dish.CategoryId"]),
                 };
-                _dishService.Update(newDish,id);
+                if (file != null)
+                {
+                    var dish = _dishService.GetById(id);
+                    DeleteImage(dish.Image);
+                    var path = UploadFile(file);
+                    dto.Image = path;
+                }
+                _dishService.Update(dto, id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }
@@ -113,8 +120,17 @@ namespace WebApp.Controllers
         // GET: Dish/Delete/5
         public ActionResult Delete(int id)
         {
-            _dishService.DeleteById(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var image = _dishService.GetById(id);
+                this.DeleteImage(image.Image);
+                _dishService.DeleteById(id);
+                return RedirectToAction(nameof(Index));
+
+            }catch(Exception e)
+            {
+                return Ok(e.Message);
+            }
         }
         public string UploadFile(IFormFile file)
         {
@@ -124,9 +140,15 @@ namespace WebApp.Controllers
             {
                 file.CopyTo(fileStream);
             }
-
             return fileName;
         }
+        public void DeleteImage(string path)
+        {
+           string rootFolder = Directory.GetCurrentDirectory();
+            System.IO.File.Delete(Path.Combine(rootFolder, "wwwroot/images", path));   
+              
+        }
+
 
     }
 }

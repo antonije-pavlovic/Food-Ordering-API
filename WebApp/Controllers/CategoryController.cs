@@ -90,7 +90,7 @@ namespace WebApp.Controllers
         // GET: Category/Delete/5
         public ActionResult Delete(int id)
         {
-            _categoryService.DeleteById(id);
+           
             return RedirectToAction(nameof(Index));
         }       
     }

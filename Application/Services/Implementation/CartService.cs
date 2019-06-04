@@ -21,6 +21,12 @@ namespace Application.Services.Implementation
             _transactionService = transactionService;
         }
 
+        public bool CheckItemExist(int userId, int itemId)
+        {
+            var item = _unitOfWork.Cart.Find(c => c.UserId == userId && c.Id == itemId).FirstOrDefault();
+           return item != null;
+        }
+
         public void Delete(CartDTO entity)
         {
             throw new NotImplementedException();
@@ -78,7 +84,7 @@ namespace Application.Services.Implementation
 
         public void Purchase(int id)
         {
-            var cartItems = _unitOfWork.Cart.GetAll().Where(c => c.UserId == id).Select(c => new CartDTO
+            var cartItems = _unitOfWork.Cart.Find(c => c.UserId == id).Select(c => new CartDTO
             {
                 Id = c.Id,
                 DishName = c.Dish.Title,

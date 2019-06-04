@@ -3,9 +3,11 @@ using Application.Responsens;
 using Application.Searches;
 using Application.Services.Interfaces;
 using Domain;
+using Microsoft.AspNetCore.Hosting;
 using Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -14,10 +16,12 @@ namespace Application.Services.Implementation
     public class DishService : IDishService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public DishService(IUnitOfWork unitOfWork)
+        public DishService(IUnitOfWork unitOfWork, IHostingEnvironment hostingEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public void Delete(DishDTO entity)
@@ -27,9 +31,9 @@ namespace Application.Services.Implementation
 
         public void DeleteById(int id)
         {
-            var dish = _unitOfWork.Dish.Get(id);
-            _unitOfWork.Dish.Remove(dish);
-            _unitOfWork.Save();
+            var dish = _unitOfWork.Dish.Get(id);            
+           _unitOfWork.Dish.Remove(dish);
+           _unitOfWork.Save();            
         }
 
         public IQueryable<DishDTO> GetAll()
@@ -137,5 +141,7 @@ namespace Application.Services.Implementation
             dish.ModifiedAt = DateTime.Now;
             _unitOfWork.Save();
         }
+
+        
     }
 }

@@ -77,15 +77,38 @@ namespace API.Controllers
         }
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete([FromBody] CartDTO dto)
         {
-            _cartService.DeleteById(id);
-            return Ok("succesfully deleted");
+            var id = GetTokenId.getId(this.getClaim());
+            if (_cartService.CheckItemExist(id, dto.Id))
+            {
+                _cartService.DeleteById(dto.Id);
+                return Ok("succesfully deleted");
+            }            
+            return Ok("Order does not exist in cart");
         }
 
         public ClaimsIdentity getClaim()
         {
             return User.Identity as ClaimsIdentity;
+        }
+        [HttpPut]
+        public IActionResult Put([FromBody] CartDTO dto)
+        {
+            var id = GetTokenId.getId(this.getClaim());
+            try
+            {
+                if (_cartService.CheckItemExist(id, dto.Id))
+                {
+                    _cartService.Update(dto, dto.Id);
+                    return Ok("Quantity successfully updated!");
+                }
+                return BadRequest("Order with that id does not exist in your cart!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

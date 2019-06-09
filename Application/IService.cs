@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Application
 {
-    public interface IService<TEntity> where TEntity : class
+    public interface IService<TEntity,TResponse> where TEntity : class
     {
         int Insert(TEntity entity);
         void Update(TEntity entity,int id);
         void Delete(TEntity entity);
-        TEntity GetById(int id);
-        IQueryable<TEntity> GetAll();
+        TResponse GetById(int id);
+        IQueryable<TResponse> GetAll();
         void DeleteById(int id);
     }
 }

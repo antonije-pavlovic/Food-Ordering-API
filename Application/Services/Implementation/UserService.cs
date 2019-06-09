@@ -24,7 +24,7 @@ namespace Application.Services.Implementation
             _mailer = mailer;
         }
 
-        public void Delete(AuthDTO entity)
+        public void Delete(UpdateUserDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -77,29 +77,29 @@ namespace Application.Services.Implementation
             return response;
         }
 
-        public IQueryable<AuthDTO> GetAll()
+        public IQueryable<UserDTO> GetAll()
         {
-           var users = _unitOfWork.User.GetAll().Select(u => new AuthDTO
-            {
+           var users = _unitOfWork.User.GetAll().Select(u => new UserDTO
+           {
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
-                IsDeleted = u.IsDeleted,
+                isDeleted = u.IsDeleted,
                 RoleId = u.RoleId                
             });
             return users;
         }        
 
-        public AuthDTO GetById(int id)
+        public UserDTO GetById(int id)
         {
-           var user = _unitOfWork.User.Find(u => u.Id == id).Select(u => new AuthDTO
+           var user = _unitOfWork.User.Find(u => u.Id == id).Select(u => new UserDTO
            {
                Id = u.Id,
                FirstName = u.FirstName,
                LastName = u.LastName,
                Email = u.Email,
-               IsDeleted = u.IsDeleted,
+               isDeleted = u.IsDeleted,
                RoleId = u.RoleId
            }).FirstOrDefault();
             return user;
@@ -113,7 +113,7 @@ namespace Application.Services.Implementation
             return transactions;
         }
 
-        public int Insert(AuthDTO data)
+        public int Insert(UpdateUserDTO data)
         {
             if (String.IsNullOrEmpty(data.FirstName))
                 throw new Exception("First name is required");
@@ -146,7 +146,7 @@ namespace Application.Services.Implementation
             return userId;
         }
 
-        public string Login(AuthDTO data, IConfiguration config)
+        public string Login(LoginDTO data, IConfiguration config)
         {
             if (String.IsNullOrEmpty(data.Email))
             {
@@ -166,7 +166,7 @@ namespace Application.Services.Implementation
             var valid = _unitOfWork.User.Find(u => u.Password == data.Password && u.Email == data.Email && u.IsDeleted == 0).FirstOrDefault();
 
             if (valid != null)
-            {                
+            {
                 var token = GenerateToken.GenerateJSONWebToken(valid, config);
                 return token;
             }
@@ -176,12 +176,45 @@ namespace Application.Services.Implementation
             }
         }
 
+        public int Register(RegisterDTO data)
+        {
+            if (String.IsNullOrEmpty(data.FirstName))
+                throw new Exception("First name is required");
+            if (String.IsNullOrEmpty(data.LastName))
+                throw new Exception("Last name is required");
+            if (String.IsNullOrEmpty(data.Email))
+                throw new Exception("email name is required");
+            if (String.IsNullOrEmpty(data.Password))
+                throw new Exception("Password name is required");
+            if (!data.Email.Contains("@"))
+                throw new Exception("Emmail is not in good forma");
+            data.Password = Compute256Hash.ComputeSha256Hash(data.Password);
+            var user = new User
+            {
+                FirstName = data.FirstName,
+                LastName = data.LastName,
+                Email = data.Email,
+                Password = data.Password,
+                RoleId = 1
+            };
+            _unitOfWork.User.Add(user);
+            _unitOfWork.Save();
+            var userId = user.Id;
+            _unitOfWork.Wallet.Add(new Wallet
+            {
+                UserId = userId,
+                Balance = 0.00
+            });
+            _unitOfWork.Save();
+            return userId;
+        }
+
         public void SendMail(MailDTO dto, int id)
         {
             _mailer.SendMail(dto.Subject, dto.Body, id);
         }
 
-        public void Update(AuthDTO entity,int id)
+        public void Update(UpdateUserDTO entity,int id)
         {
             var user = _unitOfWork.User.Get(id);
             if (!String.IsNullOrEmpty(entity.FirstName))

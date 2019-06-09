@@ -8,10 +8,9 @@ using System.Text;
 
 namespace Application.Services.Interfaces
 {
-    public interface IUserService: IService<AuthDTO>,ICommand<TransactionSearch, PageResponse<TransactionDTO>>
+    public interface IUserService: IService<UpdateUserDTO, UserDTO>,ICommand<TransactionSearch, PageResponse<TransactionDTO>>, ILoginService, IRegisterService
     {
         PageResponse<TransactionDTO> GetTRansactions(TransactionSearch search, int id);
-        string Login(AuthDTO dto,IConfiguration config);
         void SendMail(MailDTO dto, int id);
     }
 }

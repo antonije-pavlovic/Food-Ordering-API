@@ -48,7 +48,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var user = new AuthDTO
+                var user = new UpdateUserDTO
                 {
                     FirstName = collection["FirstName"],
                     LastName = collection["LastName"],
@@ -78,7 +78,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var userDto = new AuthDTO
+                var userDto = new UpdateUserDTO
                 {
                     FirstName = collection["FirstName"],
                     LastName = collection["LastName"],
@@ -89,9 +89,8 @@ namespace WebApp.Controllers
                 _userService.Update(userDto, id);
             return RedirectToAction(nameof(Index));
             }catch(Exception e)
-            {
-                return Ok(e.Message);
-                return View(e);
+            {               
+                return View(e.Message);
             }
         }
 

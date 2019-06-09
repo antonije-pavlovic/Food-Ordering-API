@@ -40,7 +40,7 @@ namespace API.Controllers
 
         // PUT: api/User/5
         [HttpPut]
-        public IActionResult Put([FromBody] AuthDTO dto)
+        public IActionResult Put([FromBody] UpdateUserDTO dto)
         {
             var id = GetTokenId.getId(User);
             _userService.Update(dto,id);                       

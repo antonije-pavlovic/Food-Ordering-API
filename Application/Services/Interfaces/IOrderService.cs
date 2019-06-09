@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Application.Services.Interfaces
 {
-    public interface IOrderService: IService<OrderDTO>
+    public interface IOrderService: IService<OrderDTO, OrderDTO>
     {
         PageResponse<OrderDTO> GetOrders(OrderSearch search, int id);
     }

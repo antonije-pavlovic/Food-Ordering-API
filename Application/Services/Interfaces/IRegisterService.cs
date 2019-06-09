@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Application.Services.Interfaces
 {
-    public interface ITransactionService: IService<TransactionDTO, TransactionDTO>
+    public interface IRegisterService
     {
+        int Register(RegisterDTO dto);
     }
 }

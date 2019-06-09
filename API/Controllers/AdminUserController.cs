@@ -54,7 +54,7 @@ namespace API.Controllers
 
         // POST: api/AdminUser
         [HttpPost]
-        public IActionResult Post([FromBody] AuthDTO dto)
+        public IActionResult Post([FromBody] UpdateUserDTO dto)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace API.Controllers
 
         // PUT: api/AdminUser/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]AuthDTO dto)
+        public IActionResult Put(int id, [FromBody]UpdateUserDTO dto)
         {
             try
             {

@@ -1,4 +1,4 @@
-﻿@model Application.DTO.AuthDTO
+﻿@model Application.DTO.UserDTO
 
 <div>
     <h4>UserDTO</h4>
@@ -29,10 +29,10 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
+            @Html.DisplayNameFor(model => model.isDeleted)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
+            @Html.DisplayFor(model => model.isDeleted)
         </dd>
     </dl>
 </div>

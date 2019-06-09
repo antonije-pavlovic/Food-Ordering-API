@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Application.Services.Interfaces
 {
-    public interface ICartService: IService<CartDTO>
+    public interface ICartService: IService<CartDTO,CartDTO>
     {
         IQueryable<CartDTO> ListCart(int id);
         void Purchase(int id);

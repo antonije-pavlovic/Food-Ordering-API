@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Application.Services.Interfaces
 {
-    public interface IDishService : IService<DishDTO>
+    public interface IDishService : IService<DishDTO, DishDTO>
     {
         PageResponse<DishDTO> Execute(DishSearch search);
 

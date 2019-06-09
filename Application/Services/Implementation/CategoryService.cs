@@ -18,7 +18,7 @@ namespace Application.Services.Implementation
             _unitOfWork = unitOfWork;
         }
 
-        public void Delete(CategoryDTO entity)
+        public void Delete(InsertCategoryDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +51,7 @@ namespace Application.Services.Implementation
             return cat;
         }
 
-        public int Insert(CategoryDTO entity)
+        public int Insert(InsertCategoryDTO entity)
         {            
             var cat = new Category
             {
@@ -62,7 +62,7 @@ namespace Application.Services.Implementation
             return cat.Id;
         }
 
-        public void Update(CategoryDTO entity, int id)
+        public void Update(InsertCategoryDTO entity, int id)
         {
             var cat = _unitOfWork.Category.Get(id);
             if (!String.IsNullOrEmpty(entity.Name))

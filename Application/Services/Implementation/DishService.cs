@@ -24,7 +24,7 @@ namespace Application.Services.Implementation
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public void Delete(DishDTO entity)
+        public void Delete(InsertDishDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -115,7 +115,7 @@ namespace Application.Services.Implementation
             return response;
         }
 
-        public int Insert(DishDTO dto)
+        public int Insert(InsertDishDTO dto)
         {
             var dish = new Dish
             {
@@ -131,12 +131,13 @@ namespace Application.Services.Implementation
             return dish.Id;
         }
 
-        public void Update(DishDTO dto, int id)
+        public void Update(InsertDishDTO dto, int id)
         {
             var dish = _unitOfWork.Dish.Get(id);
             dish.Title = dto.Titile;
             dish.Price = dto.Price;
             dish.Serving = dto.Serving;
+            dish.Image = dto.Image;
             dish.Ingredients = dto.Ingridients;
             dish.ModifiedAt = DateTime.Now;
             _unitOfWork.Save();

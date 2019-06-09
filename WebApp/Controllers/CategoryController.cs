@@ -46,7 +46,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var category = new CategoryDTO
+                var category = new InsertCategoryDTO
                 {
                     Name = collection["Name"]
                 };
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var cat = new CategoryDTO
+                var cat = new InsertCategoryDTO
                 {
                     Name = collection["Name"]
                 };
@@ -90,8 +90,15 @@ namespace WebApp.Controllers
         // GET: Category/Delete/5
         public ActionResult Delete(int id)
         {
-           
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _categoryService.DeleteById(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(Exception e)
+            {
+                return BadRequest("Something went wrong");
+            }            
         }       
     }
 }

@@ -61,6 +61,7 @@ namespace API
             services.AddTransient<IMailer, Mailer>();
             services.AddTransient<IWalletService, WalletService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IImageService, ImageService>();
 
             services.AddMvc()
                .AddFluentValidation(fv =>

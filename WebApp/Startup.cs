@@ -50,6 +50,7 @@ namespace WebApp
             services.AddTransient<IDishService, DishService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IMailer, Mailer>();
+            services.AddTransient<IImageService, ImageService>();
 
         }
 

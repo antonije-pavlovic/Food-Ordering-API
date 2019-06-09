@@ -41,19 +41,14 @@ namespace API.Controllers
        
         // POST: api/Cart
         [HttpPost]
-        public IActionResult Post([FromBody] CartDTO dto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+        public IActionResult Post([FromBody] InsertCartDTO dto)
+        {            
             try
             {
-                var id = GetTokenId.getId(User);
-                dto.UserId = id;
-                _cartService.Insert(dto);
+                var id = GetTokenId.getId(User);            
+                _cartService.Insert(dto,id);
                 return Ok("succesfuly added to cart");
-            }
+            } 
             catch(Exception e)
             {
                 return BadRequest(e.Message);
@@ -88,15 +83,15 @@ namespace API.Controllers
             return Ok("Order does not exist in cart");
         }
         
-        [HttpPut]
-        public IActionResult Put([FromBody] CartDTO dto)
+        [HttpPut("{ItemId}")]
+        public IActionResult Put(int ItemId, [FromBody] UpdateCartDTO dto)
         {
-            var id = GetTokenId.getId(User);
+            var gid = GetTokenId.getId(User);
             try
             {
-                if (_cartService.CheckItemExist(id, dto.Id))
+                if (_cartService.CheckItemExist(gid, ItemId))
                 {
-                    _cartService.Update(dto, dto.Id);
+                    _cartService.Update(dto, ItemId);
                     return Ok("Quantity successfully updated!");
                 }
                 return BadRequest("Order with that id does not exist in your cart!");

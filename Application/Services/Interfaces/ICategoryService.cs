@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Application.Services.Interfaces
 {
-    public interface ICategoryService: IService<CategoryDTO, CategoryDTO>
+    public interface ICategoryService: IService<InsertCategoryDTO, CategoryDTO>
     {
     }
 }

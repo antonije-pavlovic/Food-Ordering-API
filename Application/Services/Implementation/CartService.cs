@@ -14,11 +14,14 @@ namespace Application.Services.Implementation
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderService _orderService;
         private readonly ITransactionService _transactionService;
-        public CartService(IUnitOfWork unitOfWork, IOrderService orderService, ITransactionService transactionService)
+        private readonly IDishService _dishService;
+
+        public CartService(IUnitOfWork unitOfWork, IOrderService orderService, ITransactionService transactionService, IDishService dishService)
         {
             _unitOfWork = unitOfWork;
             _orderService = orderService;
             _transactionService = transactionService;
+            _dishService = dishService;
         }
 
         public bool CheckItemExist(int userId, int itemId)
@@ -28,6 +31,11 @@ namespace Application.Services.Implementation
         }
 
         public void Delete(CartDTO entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(InsertCartDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -47,9 +55,9 @@ namespace Application.Services.Implementation
         public CartDTO GetById(int id)
         {
             throw new NotImplementedException();
-        }
+        }    
 
-        public int Insert(CartDTO dto)
+        public int Insert(InsertCartDTO dto, int id)
         {
             var dish = _unitOfWork.Dish.Get(dto.DishId);
             if (dish == null)
@@ -57,13 +65,18 @@ namespace Application.Services.Implementation
             var cart = new Cart
             {
                 DishId = dto.DishId,
-                UserId = dto.UserId,
+                UserId = id,
                 Quantity = dto.Quantity,
                 Sum = dto.Quantity * dish.Price
             };
             _unitOfWork.Cart.Add(cart);
             _unitOfWork.Save();
             return cart.Id;
+        }      
+
+        public int Insert(InsertCartDTO entity)
+        {
+            throw new NotImplementedException();
         }
 
         public IQueryable<CartDTO> ListCart(int id)
@@ -84,7 +97,7 @@ namespace Application.Services.Implementation
 
         public void Purchase(int id)
         {
-            var cartItems = _unitOfWork.Cart.Find(c => c.UserId == id).Select(c => new CartDTO
+            var cartItems = _unitOfWork.Cart.GetAll().Where(c => c.UserId == id).Select(c => new CartDTO
             {
                 Id = c.Id,
                 DishName = c.Dish.Title,
@@ -126,9 +139,18 @@ namespace Application.Services.Implementation
                 Type = "outcome"                
             });
             _unitOfWork.Save();
+        }        
+
+        public void Update(UpdateCartDTO entity, int id)
+        {
+            var cart = _unitOfWork.Cart.Get(id);
+            var dish = _dishService.GetById(cart.DishId);
+            cart.Quantity = entity.Quantity;
+            cart.Sum = cart.Quantity * dish.Price;
+            _unitOfWork.Save();
         }
 
-        public void Update(CartDTO entity, int id)
+        public void Update(InsertCartDTO entity, int id)
         {
             throw new NotImplementedException();
         }

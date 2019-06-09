@@ -53,7 +53,7 @@ namespace API.Controllers
 
         // POST: api/AdminCategory
         [HttpPost]
-        public IActionResult Post([FromBody] CategoryDTO dto)
+        public IActionResult Post([FromBody] InsertCategoryDTO dto)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace API.Controllers
 
         // PUT: api/AdminCategory/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] CategoryDTO dto)
+        public IActionResult Put(int id, [FromBody] InsertCategoryDTO dto)
         {
             try
             {

@@ -15,11 +15,13 @@ namespace WebApp.Controllers
     {
         private readonly IDishService _dishService;
         private readonly ICategoryService _categoryService;
+        private readonly IImageService _imageService;
         
-        public DishController(IDishService dishService, ICategoryService categoryService)
+        public DishController(IDishService dishService, ICategoryService categoryService, IImageService imageService)
         {
             _categoryService = categoryService;
             _dishService = dishService;
+            _imageService = imageService;
         }
 
         // GET: Dish
@@ -54,7 +56,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var path = UploadFile(file);
+                var path = _imageService.UploadImage(file);
                 var dish = new DishDTO
                 {
                     Titile = collection["Dish.Titile"],
@@ -104,8 +106,8 @@ namespace WebApp.Controllers
                 if (file != null)
                 {
                     var dish = _dishService.GetById(id);
-                    DeleteImage(dish.Image);
-                    var path = UploadFile(file);
+                    _imageService.DeleteImage(dish.Image);
+                    var path = _imageService.UploadImage(file);
                     dto.Image = path;
                 }
                  _dishService.Update(dto, id);
@@ -123,7 +125,7 @@ namespace WebApp.Controllers
             try
             {
                 var image = _dishService.GetById(id);
-                this.DeleteImage(image.Image);
+                _imageService.DeleteImage(image.Image);
                 _dishService.DeleteById(id);
                 return RedirectToAction(nameof(Index));
 
@@ -131,24 +133,6 @@ namespace WebApp.Controllers
             {
                 return Ok(e.Message);
             }
-        }
-        public string UploadFile(IFormFile file)
-        {
-            var fileName = file.FileName;
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                file.CopyTo(fileStream);
-            }
-            return fileName;
-        }
-        public void DeleteImage(string path)
-        {
-           string rootFolder = Directory.GetCurrentDirectory();
-            System.IO.File.Delete(Path.Combine(rootFolder, "wwwroot/images", path));   
-              
-        }
-
-
+        }     
     }
 }

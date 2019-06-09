@@ -11,7 +11,6 @@ namespace Application.Validation
          public CartValidation()
          {
             RuleFor(x => x.Quantity).NotEmpty().NotNull().GreaterThan(0);
-            RuleFor(x => x.DishId).NotEmpty().NotNull().GreaterThan(0);            
          }
     }
 }

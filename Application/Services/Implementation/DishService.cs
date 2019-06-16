@@ -134,13 +134,19 @@ namespace Application.Services.Implementation
         public void Update(InsertDishDTO dto, int id)
         {
             var dish = _unitOfWork.Dish.Get(id);
-            dish.Title = dto.Titile;
-            dish.Price = dto.Price;
-            dish.Serving = dto.Serving;
-            dish.Image = dto.Image;
-            dish.Ingredients = dto.Ingridients;
+            if(dto.Titile != null)
+                dish.Title = dto.Titile;
+            if (dto.Price > 0)
+                dish.Price = dto.Price;
+            if (dto.Serving != null)
+                dish.Serving = dto.Serving;
+            if (dto.Image != null)
+                dish.Image = dto.Image;
+            if (dto.Ingridients != null)
+                dish.Ingredients = dto.Ingridients;
             dish.ModifiedAt = DateTime.Now;
             _unitOfWork.Save();
+
         }
 
         

@@ -11,7 +11,7 @@ namespace Application.Mailer
     public class Mailer : IMailer
     {
         private string _hostMail;
-        private readonly string _mailServer = "";
+        private readonly string _mailServer = "smtp.gmail.com";
         private readonly int _mailPort = 587;
         private string _password;
         private readonly bool _secure = false;

@@ -132,7 +132,7 @@ namespace Application.Services.Implementation
                 LastName = data.LastName,
                 Email = data.Email,
                 Password = data.Password,
-                RoleId = 1
+                RoleId = 2
             };
             _unitOfWork.User.Add(user);
             _unitOfWork.Save();

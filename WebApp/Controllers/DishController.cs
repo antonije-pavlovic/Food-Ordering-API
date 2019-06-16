@@ -83,7 +83,7 @@ namespace WebApp.Controllers
             var data = new CatDishDTO
             {
                 Categories = categories,
-                Dish = dish
+                Dish = dish                
             };
             return View(data);
         }
@@ -101,7 +101,8 @@ namespace WebApp.Controllers
                     Ingridients = collection["Dish.Ingridients"],
                     Price = Double.Parse(collection["Dish.Price"]),
                     Serving = collection["Dish.Serving"],
-                    CategoryId = Int32.Parse(collection["Dish.CategoryId"]),
+                    CategoryId = Int32.Parse(collection["Dish.CategoryId"])
+                    
                 };
                 if (file != null)
                 {

@@ -48,5 +48,6 @@ C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\R
 C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Dish\Index.g.cshtml.cs
 C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Dish\Details.g.cshtml.cs
 C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Dish\Create.g.cshtml.cs
-C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Dish\Edit.g.cshtml.cs
 C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Category\Delete.g.cshtml.cs
+C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Dish\Edit11.g.cshtml.cs
+C:\Users\Antonije\source\repos\FoodOrederingAPI\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Dish\Edit.g.cshtml.cs

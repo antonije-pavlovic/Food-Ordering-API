@@ -49,8 +49,9 @@ namespace WebApp
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IDishService, DishService>();
             services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IMailer, Mailer>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IMailer>(m => new Mailer(new UnitOfWork(new RestaurantContext()), "mr.antonije@gmial.com", "password"));
+
 
         }
 

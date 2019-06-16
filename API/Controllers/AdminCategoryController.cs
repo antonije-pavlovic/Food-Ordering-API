@@ -23,7 +23,7 @@ namespace API.Controllers
         }
         // GET: api/AdminCategory
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<CategoryDTO> Get()
         {
             try
             {
@@ -38,7 +38,7 @@ namespace API.Controllers
 
         // GET: api/AdminCategory/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<CategoryDTO> Get(int id)
         {
             try
             {

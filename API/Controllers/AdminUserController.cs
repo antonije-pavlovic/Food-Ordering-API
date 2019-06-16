@@ -24,7 +24,7 @@ namespace API.Controllers
         }
         // GET: api/AdminUser
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<UserDTO> Get()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace API.Controllers
 
         // GET: api/AdminUser/5
         [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id)
+        public ActionResult<UserDTO> Get(int id)
         {
             try
             {

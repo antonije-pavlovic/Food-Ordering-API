@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Responsens;
 using Application.Searches;
 using Application.Services;
 using Application.Services.Interfaces;
@@ -25,7 +26,7 @@ namespace API.Controllers
             _orderService = orderService;
         }
         [HttpGet]
-        public IActionResult Get([FromQuery] OrderSearch search)
+        public ActionResult<PageResponse<OrderDTO>> Get([FromQuery] OrderSearch search)
         {
             try
             {

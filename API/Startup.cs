@@ -58,7 +58,7 @@ namespace API
             services.AddTransient<IDishService, DishService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ITransactionService, TransactionService>();
-            services.AddTransient<IMailer, Mailer>();
+            services.AddTransient<IMailer>(m => new Mailer(new UnitOfWork(new RestaurantContext()), Configuration["Mailer:Email"], Configuration["Mailer:Password"]));
             services.AddTransient<IWalletService, WalletService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IImageService, ImageService>();

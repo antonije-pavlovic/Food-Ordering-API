@@ -67,7 +67,7 @@ namespace API.Controllers
             }
             catch(Exception e)
             {
-                return Ok("Servis is temporary out of function");
+                return BadRequest("Servis is temporary out of function");
             }
         }       
     }

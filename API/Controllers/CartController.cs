@@ -25,7 +25,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<CartDTO> Get()
         {
             try
             {

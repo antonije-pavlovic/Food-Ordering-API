@@ -10,20 +10,21 @@ namespace Application.Mailer
 {
     public class Mailer : IMailer
     {
-        private readonly string _hostMail ="";
+        private string _hostMail;
         private readonly string _mailServer = "";
         private readonly int _mailPort = 587;
-        private readonly string _password = "";
+        private string _password;
         private readonly bool _secure = false;
         private MimeMessage _msg;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
-        public Mailer(IUnitOfWork unitOfWork, IConfiguration config)
+        public Mailer(IUnitOfWork unitOfWork, string email, string password)
         {
+            _hostMail = email;
+            _password = password;
             _unitOfWork = unitOfWork;
             _msg = new MimeMessage();
             _msg.To.Add(new MailboxAddress(_hostMail));
-            _config = config;            
         }
         public void SendMail(string subject, string body, int id)
         {

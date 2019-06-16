@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Responsens;
 using Application.Searches;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ namespace API.Controllers
        
         // GET: api/Dish
         [HttpGet]        
-        public IActionResult Get([FromQuery] DishSearch search)
+        public ActionResult<PageResponse<DishDTO>> Get([FromQuery] DishSearch search)
         {
             var dishes = _dishService.Execute(search);
             return Ok(dishes);
@@ -36,7 +37,7 @@ namespace API.Controllers
 
         // GET: api/Dish/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<DishDTO> Get(int id)
         {
             try
             {
